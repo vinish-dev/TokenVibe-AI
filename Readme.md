@@ -63,11 +63,11 @@ TokenVibe AI intentionally uses a **simplified semantic schema** (`ThemeSchema`)
 
 3. Open [http://localhost:3000](http://localhost:3000) with your browser.
 
-## Next Steps for Development
+## V2 Features (Completed)
 
-If you are picking up this project, here are the recommended next steps:
+We have successfully implemented the following V2 features:
 
-1. **Expand the Component Gallery**: Add more complex UI components to `ComponentsPreview.tsx` (like data tables, charts, or date pickers).
-2. **Advanced Export Options**: Expand the `exportGenerators.ts` to support deeper configuration or download as actual `.zip` files containing the generated boilerplate.
-3. **User Accounts & Database**: Implement real functionality for the mocked "My Systems", "History", and "Save System" buttons in the sidebar and header. We recommend adding a PostgreSQL database using Prisma or Drizzle to the `server`.
-4. **Enhanced Prompts**: Provide slider values to the Gemini backend so the sliders influence the generated theme.
+1. **Component Gallery Expansion**: Added a realistic Data Table and a dynamic Area Chart using `recharts` to `ComponentsPreview.tsx`.
+2. **Advanced Export Options**: Integrated `jszip` and `file-saver` to allow users to download a full `.zip` bundle containing CSS, Tailwind Configs, Jetpack Compose, Flutter, Figma Tokens, and the raw JSON schema.
+3. **Database Integration**: Built a Prisma ORM + SQLite database in the Express backend. Saving themes and viewing historical themes is now fully functional.
+4. **Enhanced Prompts**: Wired the 6 design sliders (Warmth, Energy, Luxury, Minimalism, Roundedness, Animation) directly into the Gemini prompt payload to strongly influence the generated styles.
