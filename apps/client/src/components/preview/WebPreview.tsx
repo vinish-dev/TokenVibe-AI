@@ -20,7 +20,7 @@ export function WebPreview() {
       : 'border-transparent shadow-none bg-showcase-surface';
 
   return (
-    <div className="w-full max-w-5xl bg-showcase-background text-showcase-foreground rounded-showcase-lg shadow-showcase-lg p-showcase-xl min-h-[500px] font-showcase-body transition-all duration-300">
+    <div className="w-full max-w-7xl bg-showcase-background text-showcase-foreground rounded-showcase-lg shadow-showcase-lg p-showcase-xl min-h-[500px] font-showcase-body transition-all duration-300">
       {/* Mock Live Preview Dashboard */}
       <div className="flex justify-between items-center mb-12">
         <div className="flex items-center gap-2 text-showcase-primary font-bold font-showcase-heading text-xl">

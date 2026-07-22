@@ -5,9 +5,9 @@
   --color-foreground: var(--foreground);
   --color-primary: #8b5cf6;
   --color-primary-hover: #7c3aed;
-  --color-surface: #18181b;
-  --color-surface-hover: #27272a;
-  --color-border: #27272a;
+  --color-surface: rgba(24, 24, 27, 0.4);
+  --color-surface-hover: rgba(39, 39, 42, 0.6);
+  --color-border: rgba(255, 255, 255, 0.08);
   --font-sans: var(--font-inter);
 
   /* Showcase variables mapped to CSS properties provided inline */
@@ -45,8 +45,9 @@
 }
 
 :root {
-  --background: #09090b; /* zinc-950 */
-  --foreground: #fafafa; /* zinc-50 */
+  /* Deep Space Theme */
+  --background: #050508;
+  --foreground: #f8fafc;
 }
 
 body {
@@ -54,4 +55,47 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans), sans-serif;
   @apply antialiased;
+}
+
+/* Glassmorphism utilities */
+.glass-panel {
+  @apply bg-surface backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.3)];
+}
+
+.glass-panel-light {
+  @apply bg-white/5 backdrop-blur-md border border-white/5 shadow-lg;
+}
+
+/* Scrollbar styling for a cleaner look */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Animated gradient background utility */
+.bg-mesh {
+  background-color: #050508;
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(139, 92, 246, 0.15) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(59, 130, 246, 0.15) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(236, 72, 153, 0.1) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, rgba(16, 185, 129, 0.1) 0px, transparent 50%);
+  background-attachment: fixed;
+}
+
+/* Hide Next.js development build indicator */
+nextjs-portal {
+  display: none !important;
 }

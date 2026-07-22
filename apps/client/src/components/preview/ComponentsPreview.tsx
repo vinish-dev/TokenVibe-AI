@@ -39,10 +39,10 @@ export function ComponentsPreview() {
       : 'bg-showcase-background border border-showcase-border focus:ring-2 focus:ring-showcase-ring focus:border-showcase-primary';
 
   return (
-    <div className="w-full max-w-5xl bg-showcase-background text-showcase-foreground rounded-showcase-lg shadow-showcase-lg p-showcase-xl min-h-[500px] flex gap-12 shrink-0 font-showcase-body transition-all duration-300">
+    <div className="w-full max-w-7xl bg-showcase-background text-showcase-foreground rounded-showcase-lg shadow-showcase-lg p-showcase-xl min-h-[500px] grid grid-cols-1 md:grid-cols-2 gap-12 shrink-0 font-showcase-body transition-all duration-300">
       
       {/* Left Column */}
-      <div className="flex-1 space-y-12">
+      <div className="space-y-12">
         <section>
           <h4 className="text-[10px] font-bold tracking-widest text-showcase-muted-foreground uppercase mb-6">Typography</h4>
           <div className="space-y-4">
@@ -92,7 +92,7 @@ export function ComponentsPreview() {
       </div>
 
       {/* Right Column */}
-      <div className="flex-1 space-y-12">
+      <div className="space-y-12">
         <section>
           <h4 className="text-[10px] font-bold tracking-widest text-showcase-muted-foreground uppercase mb-6">Alerts & Badges</h4>
           <div className="flex gap-2 mb-6">
@@ -141,7 +141,7 @@ export function ComponentsPreview() {
       </div>
 
       {/* Analytics Section */}
-      <div className="w-full mt-12 col-span-2">
+      <div className="w-full md:col-span-2 mt-4">
         <section>
           <h4 className="text-[10px] font-bold tracking-widest text-showcase-muted-foreground uppercase mb-6">Data & Analytics</h4>
           
