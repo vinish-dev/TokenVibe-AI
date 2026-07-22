@@ -48,8 +48,8 @@ export function WebPreview() {
           <h1 className="text-4xl sm:text-5xl font-extrabold leading-tight mb-6 font-showcase-heading text-showcase-foreground">Focus on what matters. <span className="text-showcase-primary">Achieve extraordinary things.</span></h1>
           <p className="text-showcase-muted-foreground text-base sm:text-lg mb-8 leading-relaxed">FocusAI helps professionals plan smarter, work faster, and achieve their goals with the power of artificial intelligence.</p>
           <div className="flex flex-col sm:flex-row gap-4">
-            <button className={`${btnPrimary} px-showcase-xl py-showcase-md rounded-showcase-lg font-medium shadow-showcase-md transition-colors justify-center flex items-center`}>Get Started Free</button>
-            <button className="px-showcase-xl py-showcase-md bg-showcase-surface text-showcase-foreground border border-showcase-border rounded-showcase-lg font-medium flex items-center justify-center gap-2 hover:bg-showcase-surface/80 transition-colors">Watch Demo</button>
+            <button className={`${btnPrimary} w-full sm:w-auto px-showcase-lg py-showcase-sm sm:py-showcase-md rounded-showcase-lg font-medium shadow-showcase-md transition-colors justify-center flex items-center`}>Get Started Free</button>
+            <button className="w-full sm:w-auto px-showcase-lg py-showcase-sm sm:py-showcase-md bg-showcase-surface text-showcase-foreground border border-showcase-border rounded-showcase-lg font-medium flex items-center justify-center gap-2 hover:bg-showcase-surface/80 transition-colors">Watch Demo</button>
           </div>
         </div>
         <div className={`bg-showcase-surface text-showcase-foreground rounded-showcase-lg p-showcase-lg ${cardStyle} flex flex-col gap-showcase-md transition-all`}>

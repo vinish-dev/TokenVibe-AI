@@ -6,7 +6,7 @@ import { useTokenStore } from "@/store/useTokenStore";
 import { AnimatePresence, motion } from "framer-motion";
 
 export function Sidebar() {
-  const { setIsExportOpen, setActiveTab, setBottomTab, loadHistory, showHistory, setShowHistory, historyItems, setTheme, isDarkMode, toggleDarkMode, isSidebarOpen, setIsSidebarOpen } = useTokenStore();
+  const { setIsExportOpen, setActiveTab, setBottomTab, loadHistory, showHistory, setShowHistory, historyItems, setTheme, isDarkMode, toggleDarkMode, isSidebarOpen, setIsSidebarOpen, appView, setAppView } = useTokenStore();
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const showToast = (msg: string) => {
@@ -48,10 +48,16 @@ export function Sidebar() {
       <div className="flex-1 overflow-y-auto custom-scrollbar -mx-2 px-2">
         <nav className="space-y-1 mb-8">
           <div className="px-3 mb-2 text-xs font-bold text-zinc-500 uppercase tracking-wider">Main</div>
-          <a href="#" className="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary font-medium transition-colors">
+          <button 
+            onClick={() => setAppView('dashboard')}
+            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg font-medium transition-colors ${appView === 'dashboard' ? 'bg-primary/10 text-primary' : 'text-muted-foreground hover:text-foreground hover:bg-[var(--color-surface-hover)]'}`}
+          >
             <LayoutDashboard className="w-5 h-5" /> Dashboard
-          </a>
-          <button onClick={() => showToast("Explore is coming in v2.0")} className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-[var(--color-surface-hover)] transition-colors">
+          </button>
+          <button 
+            onClick={() => setAppView('explore')}
+            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg font-medium transition-colors ${appView === 'explore' ? 'bg-primary/10 text-primary' : 'text-muted-foreground hover:text-foreground hover:bg-[var(--color-surface-hover)]'}`}
+          >
             <Compass className="w-5 h-5" /> Explore
           </button>
         </nav>

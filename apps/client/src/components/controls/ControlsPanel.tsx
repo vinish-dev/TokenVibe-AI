@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Sparkles, Loader2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTokenStore } from "@/store/useTokenStore";
+import { presetThemes } from "@/utils/presetThemes";
 
 const PERSONALITIES = ['Modern', 'Elegant', 'Playful', 'Luxury', 'Minimal', 'Cyberpunk', 'Friendly', 'Bold'];
 
@@ -63,8 +64,15 @@ export function ControlsPanel() {
       const newTheme = await response.json();
       setTheme(newTheme);
     } catch (error) {
-      console.error(error);
-      // Fallback or error state could be handled here
+      console.error("AI Generation failed, falling back to presets:", error);
+      // Fallback: pick a preset that vaguely matches the personality, or just random
+      const personality = selectedPersonalities.length > 0 ? selectedPersonalities[0] : 'Modern';
+      const fallbackMatches = presetThemes.filter(t => t.intent.mood === personality || t.intent.style === personality);
+      const fallbackTheme = fallbackMatches.length > 0 
+        ? fallbackMatches[Math.floor(Math.random() * fallbackMatches.length)]
+        : presetThemes[Math.floor(Math.random() * presetThemes.length)];
+      
+      setTheme(fallbackTheme);
     } finally {
       setIsGenerating(false);
     }

@@ -23,6 +23,8 @@ interface TokenState {
   toggleDarkMode: () => void;
   isSidebarOpen: boolean;
   setIsSidebarOpen: (isOpen: boolean) => void;
+  appView: 'dashboard' | 'explore';
+  setAppView: (view: 'dashboard' | 'explore') => void;
 }
 
 const defaultTheme: ThemeSchema = {
@@ -144,5 +146,7 @@ export const useTokenStore = create<TokenState>((set, get) => ({
     }
   },
   isSidebarOpen: false,
-  setIsSidebarOpen: (isOpen) => set({ isSidebarOpen: isOpen })
+  setIsSidebarOpen: (isOpen) => set({ isSidebarOpen: isOpen }),
+  appView: 'dashboard',
+  setAppView: (view) => set({ appView: view })
 }));
