@@ -29,7 +29,6 @@ export function ControlsPanel() {
   });
   const [prompt, setPrompt] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
-  const [isAiMode, setIsAiMode] = useState(true);
 
   const togglePersonality = (pill: string) => {
     setSelectedPersonalities(prev => 
@@ -73,21 +72,6 @@ export function ControlsPanel() {
 
   return (
     <section className="w-80 border-r border-border bg-[#09090b] p-6 overflow-y-auto custom-scrollbar shrink-0 flex flex-col relative">
-      {/* AI Mode Toggle */}
-      <div className="flex items-center justify-between mb-8 bg-surface border border-border p-1 rounded-xl">
-        <button 
-          onClick={() => setIsAiMode(true)}
-          className={`flex-1 py-1.5 text-xs font-medium rounded-lg flex items-center justify-center gap-1.5 transition-all ${isAiMode ? 'bg-primary text-white shadow-sm' : 'text-zinc-500 hover:text-zinc-300'}`}
-        >
-          <Sparkles className="w-3.5 h-3.5" /> Magic AI
-        </button>
-        <button 
-          onClick={() => setIsAiMode(false)}
-          className={`flex-1 py-1.5 text-xs font-medium rounded-lg flex items-center justify-center gap-1.5 transition-all ${!isAiMode ? 'bg-zinc-800 text-white shadow-sm' : 'text-zinc-500 hover:text-zinc-300'}`}
-        >
-          Manual
-        </button>
-      </div>
 
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-sm font-medium">1. Brand Personality</h2>

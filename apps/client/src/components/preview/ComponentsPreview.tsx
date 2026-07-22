@@ -39,10 +39,10 @@ export function ComponentsPreview() {
       : 'bg-showcase-background border border-showcase-border focus:ring-2 focus:ring-showcase-ring focus:border-showcase-primary';
 
   return (
-    <div className="w-full max-w-5xl bg-showcase-background text-showcase-foreground rounded-showcase-lg shadow-showcase-lg p-showcase-xl min-h-[500px] flex gap-12 shrink-0 font-showcase-body transition-all duration-300">
+    <div className="w-full max-w-5xl bg-showcase-background text-showcase-foreground rounded-showcase-lg shadow-showcase-lg p-showcase-xl min-h-[500px] flex flex-wrap gap-12 shrink-0 font-showcase-body transition-all duration-300">
       
       {/* Left Column */}
-      <div className="flex-1 space-y-12">
+      <div className="flex-1 min-w-[300px] space-y-12">
         <section>
           <h4 className="text-[10px] font-bold tracking-widest text-showcase-muted-foreground uppercase mb-6">Typography</h4>
           <div className="space-y-4">
@@ -92,7 +92,7 @@ export function ComponentsPreview() {
       </div>
 
       {/* Right Column */}
-      <div className="flex-1 space-y-12">
+      <div className="flex-1 min-w-[300px] space-y-12">
         <section>
           <h4 className="text-[10px] font-bold tracking-widest text-showcase-muted-foreground uppercase mb-6">Alerts & Badges</h4>
           <div className="flex gap-2 mb-6">
@@ -141,13 +141,13 @@ export function ComponentsPreview() {
       </div>
 
       {/* Analytics Section */}
-      <div className="w-full mt-12 col-span-2">
+      <div className="w-full mt-12 md:col-span-2">
         <section>
           <h4 className="text-[10px] font-bold tracking-widest text-showcase-muted-foreground uppercase mb-6">Data & Analytics</h4>
           
           <div className="flex gap-8 max-md:flex-col">
             {/* Data Table */}
-            <div className={`flex-1 bg-showcase-surface rounded-showcase-lg overflow-hidden ${cardStyle}`}>
+            <div className={`flex-1 min-w-0 bg-showcase-surface rounded-showcase-lg overflow-hidden ${cardStyle}`}>
               <div className="p-4 border-b border-showcase-border flex justify-between items-center">
                 <h5 className="font-semibold text-sm">Recent Transactions</h5>
                 <button className="text-xs text-showcase-primary hover:underline">View All</button>
@@ -193,7 +193,7 @@ export function ComponentsPreview() {
             </div>
 
             {/* Chart Mock */}
-            <div className={`flex-1 bg-showcase-surface p-showcase-lg rounded-showcase-lg ${cardStyle}`}>
+            <div className={`flex-1 min-w-0 bg-showcase-surface p-showcase-lg rounded-showcase-lg ${cardStyle}`}>
               <h5 className="font-semibold text-sm mb-6">Revenue Overview</h5>
               <div className="h-[200px] w-full">
                 <ResponsiveContainer width="100%" height="100%">

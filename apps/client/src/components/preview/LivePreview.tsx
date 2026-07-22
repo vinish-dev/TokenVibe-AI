@@ -9,9 +9,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import React from "react";
 
 export function LivePreview() {
-  const { theme } = useTokenStore();
-  const [activeTab, setActiveTab] = useState<'web' | 'mobile' | 'components'>('web');
-  const [bottomTab, setBottomTab] = useState<'colors' | 'typography' | 'spacing' | 'radius'>('colors');
+  const { theme, activeTab, setActiveTab, bottomTab, setBottomTab } = useTokenStore();
   const [saveToast, setSaveToast] = useState(false);
 
   const handleSave = () => {
@@ -78,12 +76,6 @@ export function LivePreview() {
             Components
           </button>
         </div>
-        <button 
-          onClick={handleSave}
-          className="text-sm font-medium bg-primary/20 hover:bg-primary/30 text-primary px-4 py-1.5 rounded-md transition-colors"
-        >
-          Save System
-        </button>
       </header>
       
       <div className="flex-1 overflow-y-auto p-6 pb-32 flex flex-col items-center custom-scrollbar relative">
@@ -102,6 +94,7 @@ export function LivePreview() {
 
         {/* Showcase Container */}
         <div 
+          id="preview-section"
           className="live-preview-container w-full max-w-5xl relative min-h-[500px] shrink-0"
           style={cssVariables}
           data-btn={theme.components.button}
@@ -125,7 +118,7 @@ export function LivePreview() {
         </div>
         
         {/* Tokens display below preview */}
-        <div className="w-full max-w-5xl mt-12 bg-[#0e0e11] border border-border rounded-xl p-6 shrink-0 relative z-10 transition-all">
+        <div id="tokens-section" className="w-full max-w-5xl mt-12 bg-[#0e0e11] border border-border rounded-xl p-6 shrink-0 relative z-10 transition-all">
           <div className="flex gap-6 border-b border-border pb-4 mb-6 text-sm">
             <button onClick={() => setBottomTab('colors')} className={`${bottomTab === 'colors' ? 'text-primary font-medium border-b-2 border-primary' : 'text-zinc-400 hover:text-zinc-200'} pb-4 -mb-[17px] transition-colors`}>Color Tokens</button>
             <button onClick={() => setBottomTab('typography')} className={`${bottomTab === 'typography' ? 'text-primary font-medium border-b-2 border-primary' : 'text-zinc-400 hover:text-zinc-200'} pb-4 -mb-[17px] transition-colors`}>Typography</button>
