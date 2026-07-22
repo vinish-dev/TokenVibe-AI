@@ -1,64 +1,91 @@
 "use client";
 
-import { Sparkles, LayoutDashboard, Palette, Type, Layers, Eye, Download, Settings, Moon } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Sparkles, LayoutDashboard, Palette, Type, Layers, Eye, Download, Settings, Moon, Compass, Clock, FolderHeart, Info } from "lucide-react";
 import { useTokenStore } from "@/store/useTokenStore";
+import { AnimatePresence, motion } from "framer-motion";
 
 export function Sidebar() {
   const { setIsExportOpen } = useTokenStore();
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  const showToast = (msg: string) => {
+    setToastMessage(msg);
+    setTimeout(() => setToastMessage(null), 3000);
+  };
 
   return (
-    <aside className="w-64 border-r border-border bg-[#0e0e11] flex flex-col py-6 px-4 shrink-0">
+    <aside className="w-64 border-r border-border bg-[#0e0e11] flex flex-col py-6 px-4 shrink-0 relative">
       <div className="flex items-center gap-3 mb-10 px-2">
         <div className="w-8 h-8 rounded bg-gradient-to-br from-primary to-blue-500 flex items-center justify-center">
           <Sparkles className="w-5 h-5 text-white" />
         </div>
         <div>
           <h1 className="font-bold text-lg leading-tight">TokenVibe AI</h1>
-          <p className="text-[10px] text-zinc-400">Semantic Design System Generator</p>
+          <p className="text-[10px] text-zinc-400">Semantic Design System</p>
         </div>
       </div>
       
-      <nav className="flex-1 space-y-1">
-        <a href="#" className="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary font-medium transition-colors">
-          <LayoutDashboard className="w-5 h-5" /> Dashboard
-        </a>
-        <a href="#" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-zinc-400 hover:text-zinc-100 hover:bg-surface transition-colors">
-          <Palette className="w-5 h-5" /> Tokens
-        </a>
-        <a href="#" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-zinc-400 hover:text-zinc-100 hover:bg-surface transition-colors">
-          <Type className="w-5 h-5" /> Typography
-        </a>
-        <a href="#" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-zinc-400 hover:text-zinc-100 hover:bg-surface transition-colors">
-          <Layers className="w-5 h-5" /> Components
-        </a>
-        <a href="#" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-zinc-400 hover:text-zinc-100 hover:bg-surface transition-colors">
-          <Eye className="w-5 h-5" /> Preview
-        </a>
-        <button 
-          onClick={() => setIsExportOpen(true)}
-          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-zinc-400 hover:text-zinc-100 hover:bg-surface transition-colors"
-        >
-          <Download className="w-5 h-5" /> Export
-        </button>
-      </nav>
-      
-      <div className="mt-auto">
-        <div className="bg-surface rounded-xl p-4 mb-4">
-          <h3 className="font-medium text-sm mb-1 text-zinc-200">Design with AI</h3>
-          <p className="text-xs text-zinc-400 mb-3">Describe the vibe or purpose of your product and let AI build the perfect design system.</p>
-          <button className="w-full bg-primary/20 hover:bg-primary/30 text-primary py-2 rounded-lg text-sm font-medium transition-colors">
-            Generate with AI
+      <div className="flex-1 overflow-y-auto custom-scrollbar -mx-2 px-2">
+        <nav className="space-y-1 mb-8">
+          <div className="px-3 mb-2 text-xs font-bold text-zinc-500 uppercase tracking-wider">Main</div>
+          <a href="#" className="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary font-medium transition-colors">
+            <LayoutDashboard className="w-5 h-5" /> Dashboard
+          </a>
+          <button onClick={() => showToast("Explore is coming in v2.0")} className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-zinc-400 hover:text-zinc-100 hover:bg-surface transition-colors">
+            <Compass className="w-5 h-5" /> Explore
           </button>
-        </div>
-        
+        </nav>
+
+        <nav className="space-y-1 mb-8">
+          <div className="px-3 mb-2 text-xs font-bold text-zinc-500 uppercase tracking-wider">Library</div>
+          <button onClick={() => showToast("My Systems is coming in v2.0")} className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-zinc-400 hover:text-zinc-100 hover:bg-surface transition-colors">
+            <FolderHeart className="w-5 h-5" /> My Systems
+          </button>
+          <button onClick={() => showToast("History is coming in v2.0")} className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-zinc-400 hover:text-zinc-100 hover:bg-surface transition-colors">
+            <Clock className="w-5 h-5" /> History
+          </button>
+        </nav>
+
+        <nav className="space-y-1 mb-8">
+          <div className="px-3 mb-2 text-xs font-bold text-zinc-500 uppercase tracking-wider">System View</div>
+          <button onClick={() => showToast("Click on Tabs in Preview panel")} className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-zinc-400 hover:text-zinc-100 hover:bg-surface transition-colors">
+            <Palette className="w-5 h-5" /> Tokens
+          </button>
+          <button onClick={() => showToast("Click on Tabs in Preview panel")} className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-zinc-400 hover:text-zinc-100 hover:bg-surface transition-colors">
+            <Type className="w-5 h-5" /> Typography
+          </button>
+          <button onClick={() => showToast("Click on Tabs in Preview panel")} className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-zinc-400 hover:text-zinc-100 hover:bg-surface transition-colors">
+            <Layers className="w-5 h-5" /> Components
+          </button>
+          <button onClick={() => setIsExportOpen(true)} className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-zinc-400 hover:text-zinc-100 hover:bg-surface transition-colors">
+            <Download className="w-5 h-5" /> Export
+          </button>
+        </nav>
+      </div>
+      
+      <div className="mt-auto pt-4 border-t border-border">
         <div className="flex items-center justify-between px-2 text-zinc-400">
           <div className="flex gap-3">
             <Settings className="w-5 h-5 cursor-pointer hover:text-zinc-100" />
             <Moon className="w-5 h-5 cursor-pointer hover:text-zinc-100" />
           </div>
-          <div className="w-6 h-6 rounded-full bg-zinc-700"></div>
+          <div className="w-7 h-7 rounded-full bg-zinc-700 border border-border"></div>
         </div>
       </div>
+
+      <AnimatePresence>
+        {toastMessage && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10 }}
+            className="absolute bottom-20 left-4 right-4 bg-[#18181b] border border-border text-xs font-medium px-4 py-3 rounded-lg shadow-xl text-zinc-200 flex items-center gap-2 z-50"
+          >
+            <Info className="w-4 h-4 text-primary" /> {toastMessage}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </aside>
   );
 }

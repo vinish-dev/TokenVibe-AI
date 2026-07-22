@@ -11,6 +11,13 @@ import React from "react";
 export function LivePreview() {
   const { theme } = useTokenStore();
   const [activeTab, setActiveTab] = useState<'web' | 'mobile' | 'components'>('web');
+  const [bottomTab, setBottomTab] = useState<'colors' | 'typography' | 'spacing' | 'radius'>('colors');
+  const [saveToast, setSaveToast] = useState(false);
+
+  const handleSave = () => {
+    setSaveToast(true);
+    setTimeout(() => setSaveToast(false), 3000);
+  };
 
   const cssVariables = React.useMemo(() => {
     return {
@@ -49,29 +56,50 @@ export function LivePreview() {
   }, [theme]);
 
   return (
-    <section className="flex-1 flex flex-col overflow-hidden bg-[#0a0a0c]">
-      <header className="h-14 border-b border-border flex items-center px-6 gap-6 shrink-0">
+    <section className="flex-1 flex flex-col overflow-hidden bg-[#0a0a0c] relative">
+      <header className="h-14 border-b border-border flex items-center justify-between px-6 shrink-0">
+        <div className="flex gap-6 h-full">
+          <button 
+            onClick={() => setActiveTab('web')}
+            className={`h-full border-b-2 px-2 text-sm font-medium transition-colors ${activeTab === 'web' ? 'border-primary text-white' : 'border-transparent text-zinc-400 hover:text-zinc-200'}`}
+          >
+            Web
+          </button>
+          <button 
+            onClick={() => setActiveTab('mobile')}
+            className={`h-full border-b-2 px-2 text-sm font-medium transition-colors ${activeTab === 'mobile' ? 'border-primary text-white' : 'border-transparent text-zinc-400 hover:text-zinc-200'}`}
+          >
+            Mobile
+          </button>
+          <button 
+            onClick={() => setActiveTab('components')}
+            className={`h-full border-b-2 px-2 text-sm font-medium transition-colors ${activeTab === 'components' ? 'border-primary text-white' : 'border-transparent text-zinc-400 hover:text-zinc-200'}`}
+          >
+            Components
+          </button>
+        </div>
         <button 
-          onClick={() => setActiveTab('web')}
-          className={`h-full border-b-2 px-2 text-sm font-medium transition-colors ${activeTab === 'web' ? 'border-primary text-white' : 'border-transparent text-zinc-400 hover:text-zinc-200'}`}
+          onClick={handleSave}
+          className="text-sm font-medium bg-primary/20 hover:bg-primary/30 text-primary px-4 py-1.5 rounded-md transition-colors"
         >
-          Web
-        </button>
-        <button 
-          onClick={() => setActiveTab('mobile')}
-          className={`h-full border-b-2 px-2 text-sm font-medium transition-colors ${activeTab === 'mobile' ? 'border-primary text-white' : 'border-transparent text-zinc-400 hover:text-zinc-200'}`}
-        >
-          Mobile
-        </button>
-        <button 
-          onClick={() => setActiveTab('components')}
-          className={`h-full border-b-2 px-2 text-sm font-medium transition-colors ${activeTab === 'components' ? 'border-primary text-white' : 'border-transparent text-zinc-400 hover:text-zinc-200'}`}
-        >
-          Components
+          Save System
         </button>
       </header>
       
-      <div className="flex-1 overflow-y-auto p-6 pb-32 flex flex-col items-center custom-scrollbar">
+      <div className="flex-1 overflow-y-auto p-6 pb-32 flex flex-col items-center custom-scrollbar relative">
+        <AnimatePresence>
+          {saveToast && (
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="absolute top-4 bg-surface border border-primary/30 text-white px-4 py-2 rounded-lg shadow-2xl z-50 text-sm font-medium flex items-center gap-2"
+            >
+              <div className="w-2 h-2 rounded-full bg-primary animate-pulse" /> System saved to your library!
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         {/* Showcase Container */}
         <div 
           className="live-preview-container w-full max-w-5xl relative min-h-[500px] shrink-0"
@@ -97,52 +125,99 @@ export function LivePreview() {
         </div>
         
         {/* Tokens display below preview */}
-        <div className="w-full max-w-5xl mt-12 bg-[#0e0e11] border border-border rounded-xl p-6 shrink-0 relative z-10">
+        <div className="w-full max-w-5xl mt-12 bg-[#0e0e11] border border-border rounded-xl p-6 shrink-0 relative z-10 transition-all">
           <div className="flex gap-6 border-b border-border pb-4 mb-6 text-sm">
-            <span className="text-primary font-medium border-b-2 border-primary pb-4 -mb-[17px]">Color Tokens</span>
-            <span className="text-zinc-400 hover:text-zinc-200 cursor-pointer">Typography</span>
-            <span className="text-zinc-400 hover:text-zinc-200 cursor-pointer">Spacing</span>
-            <span className="text-zinc-400 hover:text-zinc-200 cursor-pointer">Radius</span>
+            <button onClick={() => setBottomTab('colors')} className={`${bottomTab === 'colors' ? 'text-primary font-medium border-b-2 border-primary' : 'text-zinc-400 hover:text-zinc-200'} pb-4 -mb-[17px] transition-colors`}>Color Tokens</button>
+            <button onClick={() => setBottomTab('typography')} className={`${bottomTab === 'typography' ? 'text-primary font-medium border-b-2 border-primary' : 'text-zinc-400 hover:text-zinc-200'} pb-4 -mb-[17px] transition-colors`}>Typography</button>
+            <button onClick={() => setBottomTab('spacing')} className={`${bottomTab === 'spacing' ? 'text-primary font-medium border-b-2 border-primary' : 'text-zinc-400 hover:text-zinc-200'} pb-4 -mb-[17px] transition-colors`}>Spacing</button>
+            <button onClick={() => setBottomTab('radius')} className={`${bottomTab === 'radius' ? 'text-primary font-medium border-b-2 border-primary' : 'text-zinc-400 hover:text-zinc-200'} pb-4 -mb-[17px] transition-colors`}>Radius</button>
           </div>
           
-          <div className="grid grid-cols-3 gap-8">
-            <div>
-              <h4 className="text-xs font-medium text-zinc-400 mb-3">Primary</h4>
-              <div className="flex gap-1">
-                {[50, 100, 200, 300, 400, 500, 600, 700, 800, 900].map(weight => (
-                  <div key={weight} className="flex-1 flex flex-col items-center gap-1">
-                    <div className={`w-full aspect-square rounded-sm ${weight === 500 ? 'ring-2 ring-primary ring-offset-2 ring-offset-[#0e0e11]' : ''}`} style={{ backgroundColor: `color-mix(in srgb, ${theme.colors.primary} ${weight/10}%, #f8fafc)` }}></div>
-                    <span className="text-[9px] text-zinc-500">{weight}</span>
+          <div className="min-h-[120px]">
+            {bottomTab === 'colors' && (
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="grid grid-cols-3 gap-8">
+                <div>
+                  <h4 className="text-xs font-medium text-zinc-400 mb-3">Primary</h4>
+                  <div className="flex gap-1">
+                    {[50, 100, 200, 300, 400, 500, 600, 700, 800, 900].map(weight => (
+                      <div key={weight} className="flex-1 flex flex-col items-center gap-1">
+                        <div className={`w-full aspect-square rounded-sm ${weight === 500 ? 'ring-2 ring-primary ring-offset-2 ring-offset-[#0e0e11]' : ''}`} style={{ backgroundColor: `color-mix(in srgb, ${theme.colors.primary} ${weight/10}%, #f8fafc)` }}></div>
+                        <span className="text-[9px] text-zinc-500">{weight}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <h4 className="text-xs font-medium text-zinc-400 mb-3">Surface</h4>
+                  <div className="flex gap-1">
+                    {[50, 100, 200, 300, 400, 500, 600, 700, 800, 900].map(weight => (
+                      <div key={weight} className="flex-1 flex flex-col items-center gap-1">
+                        <div className={`w-full aspect-square rounded-sm`} style={{ backgroundColor: `color-mix(in srgb, ${theme.colors.surface} ${weight/10}%, #ffffff)` }}></div>
+                        <span className="text-[9px] text-zinc-500">{weight}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <h4 className="text-xs font-medium text-zinc-400 mb-3">Semantic</h4>
+                  <div className="flex gap-2">
+                    {[
+                      { name: 'Success', color: theme.colors.success },
+                      { name: 'Warning', color: theme.colors.warning },
+                      { name: 'Error', color: theme.colors.error }
+                    ].map(sem => (
+                      <div key={sem.name} className="flex-1 flex flex-col items-center gap-1">
+                        <div className="w-full aspect-[2/1] rounded-md" style={{ backgroundColor: sem.color }}></div>
+                        <span className="text-[9px] text-zinc-500">{sem.name}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            )}
+
+            {bottomTab === 'typography' && (
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="grid grid-cols-2 gap-8">
+                <div>
+                  <h4 className="text-xs font-medium text-zinc-400 mb-3">Heading Font</h4>
+                  <div className="p-4 bg-surface rounded-lg border border-border">
+                    <span className="text-2xl font-bold" style={{ fontFamily: theme.typography.headingFont }}>Aa</span>
+                    <p className="mt-2 text-sm text-zinc-300 font-mono text-xs">{theme.typography.headingFont}</p>
+                  </div>
+                </div>
+                <div>
+                  <h4 className="text-xs font-medium text-zinc-400 mb-3">Body Font</h4>
+                  <div className="p-4 bg-surface rounded-lg border border-border">
+                    <span className="text-2xl" style={{ fontFamily: theme.typography.bodyFont }}>Aa</span>
+                    <p className="mt-2 text-sm text-zinc-300 font-mono text-xs">{theme.typography.bodyFont}</p>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+
+            {bottomTab === 'spacing' && (
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="grid grid-cols-4 gap-4">
+                {Object.entries(theme.spacing).map(([key, value]) => (
+                  <div key={key} className="p-4 bg-surface rounded-lg border border-border flex flex-col items-center">
+                    <div className="bg-primary/20 mb-3" style={{ width: value, height: value }}></div>
+                    <span className="text-xs font-medium">{key}</span>
+                    <span className="text-[10px] font-mono text-zinc-500">{value}</span>
                   </div>
                 ))}
-              </div>
-            </div>
-            <div>
-              <h4 className="text-xs font-medium text-zinc-400 mb-3">Surface</h4>
-              <div className="flex gap-1">
-                {[50, 100, 200, 300, 400, 500, 600, 700, 800, 900].map(weight => (
-                  <div key={weight} className="flex-1 flex flex-col items-center gap-1">
-                    <div className={`w-full aspect-square rounded-sm`} style={{ backgroundColor: `color-mix(in srgb, ${theme.colors.surface} ${weight/10}%, #ffffff)` }}></div>
-                    <span className="text-[9px] text-zinc-500">{weight}</span>
+              </motion.div>
+            )}
+
+            {bottomTab === 'radius' && (
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="grid grid-cols-4 gap-4">
+                {Object.entries(theme.radius).map(([key, value]) => (
+                  <div key={key} className="p-4 bg-surface rounded-lg border border-border flex flex-col items-center">
+                    <div className="w-12 h-12 bg-primary/20 mb-3 border border-primary/50" style={{ borderRadius: value }}></div>
+                    <span className="text-xs font-medium">{key}</span>
+                    <span className="text-[10px] font-mono text-zinc-500">{value}</span>
                   </div>
                 ))}
-              </div>
-            </div>
-            <div>
-              <h4 className="text-xs font-medium text-zinc-400 mb-3">Semantic</h4>
-              <div className="flex gap-2">
-                {[
-                  { name: 'Success', color: theme.colors.success },
-                  { name: 'Warning', color: theme.colors.warning },
-                  { name: 'Error', color: theme.colors.error }
-                ].map(sem => (
-                  <div key={sem.name} className="flex-1 flex flex-col items-center gap-1">
-                    <div className="w-full aspect-[2/1] rounded-md" style={{ backgroundColor: sem.color }}></div>
-                    <span className="text-[9px] text-zinc-500">{sem.name}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
+              </motion.div>
+            )}
           </div>
         </div>
       </div>

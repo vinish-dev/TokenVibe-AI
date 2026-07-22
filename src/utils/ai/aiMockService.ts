@@ -198,9 +198,14 @@ export const getRandomMockTheme = (): ThemeSchema => {
   return mockThemes[index];
 };
 
-let currentThemeIndex = 0;
-export const getNextMockTheme = (): ThemeSchema => {
-  const theme = mockThemes[currentThemeIndex];
-  currentThemeIndex = (currentThemeIndex + 1) % mockThemes.length;
-  return theme;
+export const getMockThemeByPersonality = (personality: string): ThemeSchema => {
+  const p = personality.toLowerCase();
+  if (p === 'cyberpunk' || p === 'bold') {
+    return mockThemes[0]; // Cyberpunk Edge
+  } else if (p === 'elegant' || p === 'luxury' || p === 'minimal') {
+    return mockThemes[1]; // Apple Inspired
+  } else if (p === 'playful' || p === 'friendly') {
+    return mockThemes[2]; // Neo Brutalism
+  }
+  return mockThemes[0]; // Default fallback
 };
