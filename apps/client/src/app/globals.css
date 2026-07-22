@@ -5,9 +5,9 @@
   --color-foreground: var(--foreground);
   --color-primary: #8b5cf6;
   --color-primary-hover: #7c3aed;
-  --color-surface: #18181b;
-  --color-surface-hover: #27272a;
-  --color-border: #27272a;
+  --color-surface: var(--surface);
+  --color-surface-hover: var(--surface-hover);
+  --color-border: var(--border);
   --font-sans: var(--font-inter);
 
   /* Showcase variables mapped to CSS properties provided inline */
@@ -45,8 +45,19 @@
 }
 
 :root {
+  --background: #ffffff;
+  --foreground: #09090b;
+  --surface: #f4f4f5;
+  --surface-hover: #e4e4e7;
+  --border: #e4e4e7;
+}
+
+.dark {
   --background: #09090b; /* zinc-950 */
   --foreground: #fafafa; /* zinc-50 */
+  --surface: #18181b;
+  --surface-hover: #27272a;
+  --border: #27272a;
 }
 
 body {

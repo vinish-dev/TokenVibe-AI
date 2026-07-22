@@ -71,14 +71,14 @@ export function ControlsPanel() {
   };
 
   return (
-    <section className="w-80 border-r border-border bg-[#09090b] p-6 overflow-y-auto custom-scrollbar shrink-0 flex flex-col relative">
+    <section className="w-80 border-r border-border bg-background p-6 overflow-y-auto custom-scrollbar shrink-0 flex flex-col relative">
 
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-sm font-medium">1. Brand Personality</h2>
         <motion.button 
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors"
+          className="text-xs text-muted-foreground hover:text-foreground transition-colors"
           onClick={() => {
             setSelectedPersonalities(['Modern']);
             setSliderValues({ warmth: 65, energy: 40, luxury: 70, minimalism: 60, roundedness: 80, animation: 50 });
@@ -101,7 +101,7 @@ export function ControlsPanel() {
               className={`px-3 py-1.5 rounded-full border text-xs transition-colors ${
                 isSelected 
                   ? 'border-primary bg-primary/10 text-primary shadow-[0_0_10px_rgba(139,92,246,0.1)]' 
-                  : 'border-border bg-surface text-zinc-300 hover:border-primary/50'
+                  : 'border-border bg-surface text-foreground hover:border-primary/50'
               }`}
             >
               {pill}
@@ -115,7 +115,7 @@ export function ControlsPanel() {
           <div key={slider.id}>
             <div className="flex justify-between text-xs mb-2">
               <span className="font-medium">{slider.label}</span>
-              <span className="text-zinc-500">{sliderValues[slider.id]}%</span>
+              <span className="text-muted-foreground">{sliderValues[slider.id]}%</span>
             </div>
             <div className="w-full h-1.5 bg-surface rounded-full mb-1 relative cursor-pointer group">
               <input 
@@ -139,7 +139,7 @@ export function ControlsPanel() {
                 transition={{ type: "spring", bounce: 0, duration: 0.4 }}
               />
             </div>
-            <div className="flex justify-between text-[10px] text-zinc-500 mt-1">
+            <div className="flex justify-between text-[10px] text-muted-foreground mt-1">
               <span>{slider.left}</span>
               <span>{slider.right}</span>
             </div>
@@ -153,10 +153,10 @@ export function ControlsPanel() {
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
           maxLength={300}
-          className="w-full bg-surface border border-border rounded-xl p-3 pb-8 min-h-32 text-sm text-zinc-300 focus:outline-none focus:border-primary transition-all resize-none shadow-inner" 
+          className="w-full bg-surface border border-border rounded-xl p-3 pb-8 min-h-32 text-sm text-foreground focus:outline-none focus:border-primary transition-all resize-none shadow-inner" 
           placeholder="An AI productivity platform for professionals that helps them plan, focus, and achieve more with intelligent assistance."
         />
-        <span className="absolute bottom-3 right-3 text-[10px] text-zinc-500">{prompt.length} / 300</span>
+        <span className="absolute bottom-3 right-3 text-[10px] text-muted-foreground">{prompt.length} / 300</span>
       </div>
       
       <div className="mt-auto">

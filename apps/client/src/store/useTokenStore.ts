@@ -19,6 +19,8 @@ interface TokenState {
   setShowHistory: (show: boolean) => void;
   historyItems: any[];
   loadHistory: () => Promise<void>;
+  isDarkMode: boolean;
+  toggleDarkMode: () => void;
 }
 
 const defaultTheme: ThemeSchema = {
@@ -125,6 +127,18 @@ export const useTokenStore = create<TokenState>((set, get) => ({
         historyItems: [{ id: 'mock-1', name: 'Sample Saved Theme', createdAt: new Date().toISOString() }], 
         showHistory: true 
       });
+    }
+  },
+  isDarkMode: true,
+  toggleDarkMode: () => {
+    const newDarkMode = !get().isDarkMode;
+    set({ isDarkMode: newDarkMode });
+    if (typeof window !== 'undefined') {
+      if (newDarkMode) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
     }
   }
 }));
