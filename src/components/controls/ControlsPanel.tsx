@@ -5,6 +5,8 @@ import { Sparkles, Loader2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTokenStore } from "@/store/useTokenStore";
 
+import { getNextMockTheme } from "@/utils/ai/aiMockService";
+
 const PERSONALITIES = ['Modern', 'Elegant', 'Playful', 'Luxury', 'Minimal', 'Cyberpunk', 'Friendly', 'Bold'];
 
 const SLIDERS = [
@@ -17,6 +19,7 @@ const SLIDERS = [
 ];
 
 export function ControlsPanel() {
+  const { setTheme } = useTokenStore();
   const [selectedPersonalities, setSelectedPersonalities] = useState<string[]>(['Modern']);
   const [sliderValues, setSliderValues] = useState<Record<string, number>>({
     warmth: 65,
@@ -45,6 +48,7 @@ export function ControlsPanel() {
     setIsGenerating(true);
     // Simulate generation delay
     setTimeout(() => {
+      setTheme(getNextMockTheme());
       setIsGenerating(false);
     }, 2500);
   };

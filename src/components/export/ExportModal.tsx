@@ -21,17 +21,17 @@ const TABS = [
 ];
 
 export function ExportModal() {
-  const { tokens, isExportOpen, setIsExportOpen } = useTokenStore();
+  const { theme, isExportOpen, setIsExportOpen } = useTokenStore();
   const [activeTab, setActiveTab] = useState('css');
   const [copied, setCopied] = useState(false);
 
   const getCode = () => {
     switch (activeTab) {
-      case 'css': return generateCSS(tokens);
-      case 'tailwind': return generateTailwind(tokens);
-      case 'compose': return generateCompose(tokens);
-      case 'flutter': return generateFlutter(tokens);
-      case 'figma': return generateFigmaTokens(tokens);
+      case 'css': return generateCSS(theme);
+      case 'tailwind': return generateTailwind(theme);
+      case 'compose': return generateCompose(theme);
+      case 'flutter': return generateFlutter(theme);
+      case 'figma': return generateFigmaTokens(theme);
       default: return '';
     }
   };

@@ -9,31 +9,44 @@ import { motion, AnimatePresence } from "framer-motion";
 import React from "react";
 
 export function LivePreview() {
-  const { tokens } = useTokenStore();
+  const { theme } = useTokenStore();
   const [activeTab, setActiveTab] = useState<'web' | 'mobile' | 'components'>('web');
 
   const cssVariables = React.useMemo(() => {
     return {
-      '--showcase-primary': tokens.colors.primary,
-      '--showcase-background': tokens.colors.background,
-      '--showcase-foreground': tokens.colors.foreground,
-      '--showcase-surface': tokens.colors.surface,
-      '--showcase-border': tokens.colors.border,
-      '--showcase-success': tokens.colors.success,
-      '--showcase-warning': tokens.colors.warning,
-      '--showcase-error': tokens.colors.error,
-      '--showcase-info': tokens.colors.info,
-      '--showcase-radius-sm': tokens.radius.sm,
-      '--showcase-radius-md': tokens.radius.md,
-      '--showcase-radius-lg': tokens.radius.lg,
-      '--showcase-radius-xl': tokens.radius.xl,
-      '--showcase-radius-full': tokens.radius.full,
-      '--showcase-spacing-sm': tokens.spacing.sm,
-      '--showcase-spacing-md': tokens.spacing.md,
-      '--showcase-spacing-lg': tokens.spacing.lg,
-      '--showcase-spacing-xl': tokens.spacing.xl,
+      '--showcase-primary': theme.colors.primary,
+      '--showcase-primary-foreground': theme.colors.primaryForeground,
+      '--showcase-secondary': theme.colors.secondary,
+      '--showcase-secondary-foreground': theme.colors.secondaryForeground,
+      '--showcase-background': theme.colors.background,
+      '--showcase-surface': theme.colors.surface,
+      '--showcase-foreground': theme.colors.foreground,
+      '--showcase-muted': theme.colors.muted,
+      '--showcase-muted-foreground': theme.colors.mutedForeground,
+      '--showcase-border': theme.colors.border,
+      '--showcase-ring': theme.colors.ring,
+      '--showcase-success': theme.colors.success,
+      '--showcase-warning': theme.colors.warning,
+      '--showcase-error': theme.colors.error,
+
+      '--showcase-radius-sm': theme.radius.sm,
+      '--showcase-radius-md': theme.radius.md,
+      '--showcase-radius-lg': theme.radius.lg,
+      '--showcase-radius-full': theme.radius.full,
+
+      '--showcase-spacing-sm': theme.spacing.sm,
+      '--showcase-spacing-md': theme.spacing.md,
+      '--showcase-spacing-lg': theme.spacing.lg,
+      '--showcase-spacing-xl': theme.spacing.xl,
+
+      '--showcase-shadow-sm': theme.shadows.sm,
+      '--showcase-shadow-md': theme.shadows.md,
+      '--showcase-shadow-lg': theme.shadows.lg,
+
+      '--showcase-font-heading': theme.typography.headingFont,
+      '--showcase-font-body': theme.typography.bodyFont,
     } as React.CSSProperties;
-  }, [tokens]);
+  }, [theme]);
 
   return (
     <section className="flex-1 flex flex-col overflow-hidden bg-[#0a0a0c]">
@@ -63,6 +76,9 @@ export function LivePreview() {
         <div 
           className="live-preview-container w-full max-w-5xl relative min-h-[500px] shrink-0"
           style={cssVariables}
+          data-btn={theme.components.button}
+          data-input={theme.components.input}
+          data-card={theme.components.card}
         >
           <AnimatePresence mode="wait">
              <motion.div
@@ -95,7 +111,7 @@ export function LivePreview() {
               <div className="flex gap-1">
                 {[50, 100, 200, 300, 400, 500, 600, 700, 800, 900].map(weight => (
                   <div key={weight} className="flex-1 flex flex-col items-center gap-1">
-                    <div className={`w-full aspect-square rounded-sm ${weight === 500 ? 'ring-2 ring-primary ring-offset-2 ring-offset-[#0e0e11]' : ''}`} style={{ backgroundColor: `color-mix(in srgb, ${tokens.colors.primary} ${weight/10}%, #f8fafc)` }}></div>
+                    <div className={`w-full aspect-square rounded-sm ${weight === 500 ? 'ring-2 ring-primary ring-offset-2 ring-offset-[#0e0e11]' : ''}`} style={{ backgroundColor: `color-mix(in srgb, ${theme.colors.primary} ${weight/10}%, #f8fafc)` }}></div>
                     <span className="text-[9px] text-zinc-500">{weight}</span>
                   </div>
                 ))}
@@ -106,7 +122,7 @@ export function LivePreview() {
               <div className="flex gap-1">
                 {[50, 100, 200, 300, 400, 500, 600, 700, 800, 900].map(weight => (
                   <div key={weight} className="flex-1 flex flex-col items-center gap-1">
-                    <div className={`w-full aspect-square rounded-sm`} style={{ backgroundColor: `color-mix(in srgb, ${tokens.colors.surface} ${weight/10}%, #ffffff)` }}></div>
+                    <div className={`w-full aspect-square rounded-sm`} style={{ backgroundColor: `color-mix(in srgb, ${theme.colors.surface} ${weight/10}%, #ffffff)` }}></div>
                     <span className="text-[9px] text-zinc-500">{weight}</span>
                   </div>
                 ))}
@@ -116,10 +132,9 @@ export function LivePreview() {
               <h4 className="text-xs font-medium text-zinc-400 mb-3">Semantic</h4>
               <div className="flex gap-2">
                 {[
-                  { name: 'Success', color: tokens.colors.success },
-                  { name: 'Warning', color: tokens.colors.warning },
-                  { name: 'Error', color: tokens.colors.error },
-                  { name: 'Info', color: tokens.colors.info }
+                  { name: 'Success', color: theme.colors.success },
+                  { name: 'Warning', color: theme.colors.warning },
+                  { name: 'Error', color: theme.colors.error }
                 ].map(sem => (
                   <div key={sem.name} className="flex-1 flex flex-col items-center gap-1">
                     <div className="w-full aspect-[2/1] rounded-md" style={{ backgroundColor: sem.color }}></div>

@@ -12,25 +12,36 @@
 
   /* Showcase variables mapped to CSS properties provided inline */
   --color-showcase-primary: var(--showcase-primary);
+  --color-showcase-primary-foreground: var(--showcase-primary-foreground);
+  --color-showcase-secondary: var(--showcase-secondary);
+  --color-showcase-secondary-foreground: var(--showcase-secondary-foreground);
   --color-showcase-background: var(--showcase-background);
-  --color-showcase-foreground: var(--showcase-foreground);
   --color-showcase-surface: var(--showcase-surface);
+  --color-showcase-foreground: var(--showcase-foreground);
+  --color-showcase-muted: var(--showcase-muted);
+  --color-showcase-muted-foreground: var(--showcase-muted-foreground);
   --color-showcase-border: var(--showcase-border);
+  --color-showcase-ring: var(--showcase-ring);
   --color-showcase-success: var(--showcase-success);
   --color-showcase-warning: var(--showcase-warning);
   --color-showcase-error: var(--showcase-error);
-  --color-showcase-info: var(--showcase-info);
   
   --radius-showcase-sm: var(--showcase-radius-sm);
   --radius-showcase-md: var(--showcase-radius-md);
   --radius-showcase-lg: var(--showcase-radius-lg);
-  --radius-showcase-xl: var(--showcase-radius-xl);
   --radius-showcase-full: var(--showcase-radius-full);
 
   --spacing-showcase-sm: var(--showcase-spacing-sm);
   --spacing-showcase-md: var(--showcase-spacing-md);
   --spacing-showcase-lg: var(--showcase-spacing-lg);
   --spacing-showcase-xl: var(--showcase-spacing-xl);
+
+  --font-showcase-heading: var(--showcase-font-heading);
+  --font-showcase-body: var(--showcase-font-body);
+
+  --shadow-showcase-sm: var(--showcase-shadow-sm);
+  --shadow-showcase-md: var(--showcase-shadow-md);
+  --shadow-showcase-lg: var(--showcase-shadow-lg);
 }
 
 :root {
