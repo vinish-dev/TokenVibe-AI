@@ -2,6 +2,17 @@
 
 import { useTokenStore } from "@/store/useTokenStore";
 import { Check, AlertCircle, Info, Star } from "lucide-react";
+import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip } from "recharts";
+
+const chartData = [
+  { name: 'Jan', value: 4000 },
+  { name: 'Feb', value: 3000 },
+  { name: 'Mar', value: 2000 },
+  { name: 'Apr', value: 2780 },
+  { name: 'May', value: 1890 },
+  { name: 'Jun', value: 2390 },
+  { name: 'Jul', value: 3490 },
+];
 
 export function ComponentsPreview() {
   const { theme } = useTokenStore();
@@ -125,6 +136,85 @@ export function ComponentsPreview() {
             <button className={`w-full ${btnPrimary} py-showcase-sm rounded-showcase-md font-medium transition-colors`}>
               Upgrade Plan
             </button>
+          </div>
+        </section>
+      </div>
+
+      {/* Analytics Section */}
+      <div className="w-full mt-12 col-span-2">
+        <section>
+          <h4 className="text-[10px] font-bold tracking-widest text-showcase-muted-foreground uppercase mb-6">Data & Analytics</h4>
+          
+          <div className="flex gap-8 max-md:flex-col">
+            {/* Data Table */}
+            <div className={`flex-1 bg-showcase-surface rounded-showcase-lg overflow-hidden ${cardStyle}`}>
+              <div className="p-4 border-b border-showcase-border flex justify-between items-center">
+                <h5 className="font-semibold text-sm">Recent Transactions</h5>
+                <button className="text-xs text-showcase-primary hover:underline">View All</button>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm text-left">
+                  <thead className="bg-showcase-muted text-showcase-muted-foreground text-xs uppercase">
+                    <tr>
+                      <th className="px-4 py-3 font-medium">Date</th>
+                      <th className="px-4 py-3 font-medium">Description</th>
+                      <th className="px-4 py-3 font-medium text-right">Amount</th>
+                      <th className="px-4 py-3 font-medium text-center">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-showcase-border">
+                    <tr className="hover:bg-showcase-muted/50 transition-colors">
+                      <td className="px-4 py-3 whitespace-nowrap">Oct 24, 2023</td>
+                      <td className="px-4 py-3 font-medium">Subscription Renewal</td>
+                      <td className="px-4 py-3 text-right">-$29.00</td>
+                      <td className="px-4 py-3 text-center">
+                        <span className="px-2 py-1 bg-showcase-success/10 text-showcase-success text-[10px] rounded-showcase-full font-bold">Completed</span>
+                      </td>
+                    </tr>
+                    <tr className="hover:bg-showcase-muted/50 transition-colors">
+                      <td className="px-4 py-3 whitespace-nowrap">Oct 22, 2023</td>
+                      <td className="px-4 py-3 font-medium">Server Costs</td>
+                      <td className="px-4 py-3 text-right">-$142.50</td>
+                      <td className="px-4 py-3 text-center">
+                        <span className="px-2 py-1 bg-showcase-warning/10 text-showcase-warning text-[10px] rounded-showcase-full font-bold">Pending</span>
+                      </td>
+                    </tr>
+                    <tr className="hover:bg-showcase-muted/50 transition-colors">
+                      <td className="px-4 py-3 whitespace-nowrap">Oct 15, 2023</td>
+                      <td className="px-4 py-3 font-medium">Client Payment</td>
+                      <td className="px-4 py-3 text-right text-showcase-success">+$4,500.00</td>
+                      <td className="px-4 py-3 text-center">
+                        <span className="px-2 py-1 bg-showcase-success/10 text-showcase-success text-[10px] rounded-showcase-full font-bold">Completed</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* Chart Mock */}
+            <div className={`flex-1 bg-showcase-surface p-showcase-lg rounded-showcase-lg ${cardStyle}`}>
+              <h5 className="font-semibold text-sm mb-6">Revenue Overview</h5>
+              <div className="h-[200px] w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart data={chartData} margin={{ top: 0, right: 0, left: 0, bottom: 0 }}>
+                    <defs>
+                      <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor={theme.charts.palette[0] || theme.colors.primary} stopOpacity={0.3}/>
+                        <stop offset="95%" stopColor={theme.charts.palette[0] || theme.colors.primary} stopOpacity={0}/>
+                      </linearGradient>
+                    </defs>
+                    <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: 'var(--showcase-muted-foreground)' }} />
+                    <YAxis hide={true} />
+                    <Tooltip 
+                      contentStyle={{ backgroundColor: 'var(--showcase-surface)', borderColor: 'var(--showcase-border)', color: 'var(--showcase-foreground)', borderRadius: 'var(--radius-md)' }}
+                      itemStyle={{ color: theme.charts.palette[0] || theme.colors.primary }}
+                    />
+                    <Area type="monotone" dataKey="value" stroke={theme.charts.palette[0] || theme.colors.primary} strokeWidth={3} fillOpacity={1} fill="url(#colorValue)" />
+                  </AreaChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
           </div>
         </section>
       </div>

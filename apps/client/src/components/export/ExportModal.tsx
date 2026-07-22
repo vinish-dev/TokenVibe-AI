@@ -11,6 +11,7 @@ import {
   generateFlutter, 
   generateFigmaTokens 
 } from "@/utils/export/exportGenerators";
+import { downloadThemeZip } from "@/utils/export/zipExport";
 
 const TABS = [
   { id: 'css', label: 'CSS Variables' },
@@ -97,7 +98,13 @@ export function ExportModal() {
 
               {/* Code View */}
               <div className="flex-1 relative overflow-hidden bg-[#0a0a0c]">
-                <div className="absolute top-4 right-4 z-10">
+                <div className="absolute top-4 right-4 z-10 flex gap-2">
+                  <button 
+                    onClick={() => downloadThemeZip(theme)}
+                    className="flex items-center gap-2 px-3 py-1.5 bg-primary text-primary-foreground hover:opacity-90 text-xs font-medium rounded-lg transition-colors shadow-sm"
+                  >
+                    Download .ZIP
+                  </button>
                   <button 
                     onClick={handleCopy}
                     className="flex items-center gap-2 px-3 py-1.5 bg-surface border border-border hover:bg-zinc-800 text-xs font-medium rounded-lg text-zinc-300 transition-colors shadow-sm"

@@ -5,8 +5,6 @@ import { Sparkles, Loader2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTokenStore } from "@/store/useTokenStore";
 
-import { getMockThemeByPersonality } from "@/utils/ai/aiMockService";
-
 const PERSONALITIES = ['Modern', 'Elegant', 'Playful', 'Luxury', 'Minimal', 'Cyberpunk', 'Friendly', 'Bold'];
 
 const SLIDERS = [
@@ -45,14 +43,32 @@ export function ControlsPanel() {
     setSliderValues(prev => ({ ...prev, [id]: value }));
   };
 
-  const handleGenerate = () => {
+  const handleGenerate = async () => {
     setIsGenerating(true);
-    // Simulate generation delay
-    setTimeout(() => {
+    try {
       const personality = selectedPersonalities.length > 0 ? selectedPersonalities[0] : 'Modern';
-      setTheme(getMockThemeByPersonality(personality));
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+      
+      const response = await fetch(`${apiUrl}/api/generate`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ prompt, personality, sliderValues })
+      });
+      
+      if (!response.ok) {
+        throw new Error("Failed to generate theme");
+      }
+      
+      const newTheme = await response.json();
+      setTheme(newTheme);
+    } catch (error) {
+      console.error(error);
+      // Fallback or error state could be handled here
+    } finally {
       setIsGenerating(false);
-    }, 2500);
+    }
   };
 
   return (
