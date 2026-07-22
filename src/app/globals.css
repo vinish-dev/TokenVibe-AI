@@ -1,0 +1,46 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: #8b5cf6;
+  --color-primary-hover: #7c3aed;
+  --color-surface: #18181b;
+  --color-surface-hover: #27272a;
+  --color-border: #27272a;
+  --font-sans: var(--font-inter);
+
+  /* Showcase variables mapped to CSS properties provided inline */
+  --color-showcase-primary: var(--showcase-primary);
+  --color-showcase-background: var(--showcase-background);
+  --color-showcase-foreground: var(--showcase-foreground);
+  --color-showcase-surface: var(--showcase-surface);
+  --color-showcase-border: var(--showcase-border);
+  --color-showcase-success: var(--showcase-success);
+  --color-showcase-warning: var(--showcase-warning);
+  --color-showcase-error: var(--showcase-error);
+  --color-showcase-info: var(--showcase-info);
+  
+  --radius-showcase-sm: var(--showcase-radius-sm);
+  --radius-showcase-md: var(--showcase-radius-md);
+  --radius-showcase-lg: var(--showcase-radius-lg);
+  --radius-showcase-xl: var(--showcase-radius-xl);
+  --radius-showcase-full: var(--showcase-radius-full);
+
+  --spacing-showcase-sm: var(--showcase-spacing-sm);
+  --spacing-showcase-md: var(--showcase-spacing-md);
+  --spacing-showcase-lg: var(--showcase-spacing-lg);
+  --spacing-showcase-xl: var(--showcase-spacing-xl);
+}
+
+:root {
+  --background: #09090b; /* zinc-950 */
+  --foreground: #fafafa; /* zinc-50 */
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), sans-serif;
+  @apply antialiased;
+}
