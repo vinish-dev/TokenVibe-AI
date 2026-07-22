@@ -145,7 +145,7 @@ export function LivePreview() {
                   <div className="flex gap-1">
                     {[50, 100, 200, 300, 400, 500, 600, 700, 800, 900].map(weight => (
                       <div key={weight} className="flex-1 flex flex-col items-center gap-1">
-                        <div className={`w-full aspect-square rounded-sm`} style={{ backgroundColor: `color-mix(in srgb, ${theme.colors.surface} ${weight/10}%, #ffffff)` }}></div>
+                        <div className={`w-full aspect-square rounded-sm`} style={{ backgroundColor: `color-mix(in srgb, ${theme.colors.foreground} ${weight/10}%, ${theme.colors.surface})` }}></div>
                         <span className="text-[9px] text-zinc-500">{weight}</span>
                       </div>
                     ))}
