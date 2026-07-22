@@ -1,4 +1,4 @@
-import { ThemeSchema } from "@/store/useTokenStore";
+import { ThemeSchema } from "@tokenvibe/shared";
 
 export function generateCSS(theme: ThemeSchema): string {
   return `:root {

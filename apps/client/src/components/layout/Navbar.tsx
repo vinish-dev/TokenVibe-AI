@@ -1,11 +1,11 @@
 "use client";
 
-import { Download, History } from "lucide-react";
+import { Download, History, Menu } from "lucide-react";
 import { useTokenStore } from "@/store/useTokenStore";
 import { useState } from "react";
 
 export function Navbar() {
-  const { theme, setIsExportOpen } = useTokenStore();
+  const { theme, setIsExportOpen, setIsSidebarOpen } = useTokenStore();
   const [isSaving, setIsSaving] = useState(false);
 
   const handleSave = async () => {
@@ -31,8 +31,14 @@ export function Navbar() {
 
 
   return (
-    <header className="h-16 border-b border-border flex items-center justify-between px-6 bg-surface shrink-0">
+    <header className="h-16 border-b border-border flex items-center justify-between px-4 lg:px-6 bg-surface shrink-0">
       <div className="flex items-center gap-4">
+        <button 
+          onClick={() => setIsSidebarOpen(true)}
+          className="lg:hidden p-2 -ml-2 text-muted-foreground hover:text-foreground rounded-lg transition-colors"
+        >
+          <Menu className="w-6 h-6" />
+        </button>
       </div>
       <div className="flex items-center gap-3">
         <button 

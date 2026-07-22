@@ -54,7 +54,7 @@ export function LivePreview() {
   }, [theme]);
 
   return (
-    <section className="flex-1 flex flex-col overflow-hidden bg-background relative">
+    <section className="w-full lg:flex-1 flex flex-col overflow-visible lg:overflow-hidden bg-background relative min-h-screen lg:min-h-0">
       <header className="h-14 border-b border-border flex items-center justify-between px-6 shrink-0">
         <div className="flex gap-6 h-full">
           <button 
@@ -78,7 +78,7 @@ export function LivePreview() {
         </div>
       </header>
       
-      <div className="flex-1 overflow-y-auto p-6 pb-32 flex flex-col items-center custom-scrollbar relative">
+      <div className="flex-1 overflow-visible lg:overflow-y-auto p-6 pb-32 flex flex-col items-center custom-scrollbar relative">
         <AnimatePresence>
           {saveToast && (
             <motion.div
@@ -118,17 +118,17 @@ export function LivePreview() {
         </div>
         
         {/* Tokens display below preview */}
-        <div id="tokens-section" className="w-full max-w-5xl mt-12 bg-surface border border-border rounded-xl p-6 shrink-0 relative z-10 transition-all">
-          <div className="flex gap-6 border-b border-border pb-4 mb-6 text-sm">
-            <button onClick={() => setBottomTab('colors')} className={`${bottomTab === 'colors' ? 'text-primary font-medium border-b-2 border-primary' : 'text-muted-foreground hover:text-foreground'} pb-4 -mb-[17px] transition-colors`}>Color Tokens</button>
-            <button onClick={() => setBottomTab('typography')} className={`${bottomTab === 'typography' ? 'text-primary font-medium border-b-2 border-primary' : 'text-muted-foreground hover:text-foreground'} pb-4 -mb-[17px] transition-colors`}>Typography</button>
-            <button onClick={() => setBottomTab('spacing')} className={`${bottomTab === 'spacing' ? 'text-primary font-medium border-b-2 border-primary' : 'text-muted-foreground hover:text-foreground'} pb-4 -mb-[17px] transition-colors`}>Spacing</button>
-            <button onClick={() => setBottomTab('radius')} className={`${bottomTab === 'radius' ? 'text-primary font-medium border-b-2 border-primary' : 'text-muted-foreground hover:text-foreground'} pb-4 -mb-[17px] transition-colors`}>Radius</button>
+        <div className="w-full max-w-5xl mt-12 bg-surface border border-border rounded-xl p-4 lg:p-6 shrink-0 relative z-10 transition-all">
+          <div className="flex gap-4 lg:gap-6 border-b border-border pb-4 mb-6 text-sm overflow-x-auto custom-scrollbar whitespace-nowrap">
+            <button onClick={() => setBottomTab('colors')} className={`${bottomTab === 'colors' ? 'text-primary font-medium border-b-2 border-primary' : 'text-zinc-400 hover:text-zinc-200'} pb-4 -mb-[17px] transition-colors`}>Color Tokens</button>
+            <button onClick={() => setBottomTab('typography')} className={`${bottomTab === 'typography' ? 'text-primary font-medium border-b-2 border-primary' : 'text-zinc-400 hover:text-zinc-200'} pb-4 -mb-[17px] transition-colors`}>Typography</button>
+            <button onClick={() => setBottomTab('spacing')} className={`${bottomTab === 'spacing' ? 'text-primary font-medium border-b-2 border-primary' : 'text-zinc-400 hover:text-zinc-200'} pb-4 -mb-[17px] transition-colors`}>Spacing</button>
+            <button onClick={() => setBottomTab('radius')} className={`${bottomTab === 'radius' ? 'text-primary font-medium border-b-2 border-primary' : 'text-zinc-400 hover:text-zinc-200'} pb-4 -mb-[17px] transition-colors`}>Radius</button>
           </div>
           
           <div className="min-h-[120px]">
             {bottomTab === 'colors' && (
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="grid grid-cols-3 gap-8">
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
                 <div>
                   <h4 className="text-xs font-medium text-muted-foreground mb-3">Primary</h4>
                   <div className="flex gap-1">
@@ -170,7 +170,7 @@ export function LivePreview() {
             )}
 
             {bottomTab === 'typography' && (
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="grid grid-cols-2 gap-8">
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
                 <div>
                   <h4 className="text-xs font-medium text-zinc-400 mb-3">Heading Font</h4>
                   <div className="p-4 bg-surface rounded-lg border border-border">
@@ -189,7 +189,7 @@ export function LivePreview() {
             )}
 
             {bottomTab === 'spacing' && (
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="grid grid-cols-4 gap-4">
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                 {Object.entries(theme.spacing).map(([key, value]) => (
                   <div key={key} className="p-4 bg-surface rounded-lg border border-border flex flex-col items-center">
                     <div className="bg-primary/20 mb-3" style={{ width: value, height: value }}></div>
@@ -201,7 +201,7 @@ export function LivePreview() {
             )}
 
             {bottomTab === 'radius' && (
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="grid grid-cols-4 gap-4">
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                 {Object.entries(theme.radius).map(([key, value]) => (
                   <div key={key} className="p-4 bg-surface rounded-lg border border-border flex flex-col items-center">
                     <div className="w-12 h-12 bg-primary/20 mb-3 border border-primary/50" style={{ borderRadius: value }}></div>

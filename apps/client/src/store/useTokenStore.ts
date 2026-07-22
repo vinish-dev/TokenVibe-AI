@@ -21,6 +21,8 @@ interface TokenState {
   loadHistory: () => Promise<void>;
   isDarkMode: boolean;
   toggleDarkMode: () => void;
+  isSidebarOpen: boolean;
+  setIsSidebarOpen: (isOpen: boolean) => void;
 }
 
 const defaultTheme: ThemeSchema = {
@@ -140,5 +142,7 @@ export const useTokenStore = create<TokenState>((set, get) => ({
         document.documentElement.classList.remove('dark');
       }
     }
-  }
+  },
+  isSidebarOpen: false,
+  setIsSidebarOpen: (isOpen) => set({ isSidebarOpen: isOpen })
 }));

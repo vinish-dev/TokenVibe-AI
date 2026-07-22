@@ -1,6 +1,6 @@
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
-import { ThemeSchema } from '@/store/useTokenStore';
+import { ThemeSchema } from '@tokenvibe/shared';
 import { generateCSS, generateTailwind, generateCompose, generateFlutter, generateFigmaTokens } from './exportGenerators';
 
 export async function downloadThemeZip(theme: ThemeSchema) {

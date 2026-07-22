@@ -13,7 +13,7 @@ export default function Home() {
       <main className="flex-1 flex overflow-hidden flex-col">
         <Navbar />
 
-        <div className="flex-1 flex overflow-hidden relative">
+        <div className="flex-1 overflow-y-auto lg:overflow-hidden flex flex-col lg:flex-row relative">
           <ControlsPanel />
           <LivePreview />
         </div>

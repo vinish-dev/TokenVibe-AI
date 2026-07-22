@@ -1,12 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Sparkles, LayoutDashboard, Palette, Type, Layers, Eye, Download, Settings, Moon, Sun, Compass, Clock, FolderHeart, Info } from "lucide-react";
+import { Sparkles, LayoutDashboard, Palette, Type, Layers, Eye, Download, Settings, Moon, Sun, Compass, Clock, FolderHeart, Info, X } from "lucide-react";
 import { useTokenStore } from "@/store/useTokenStore";
 import { AnimatePresence, motion } from "framer-motion";
 
 export function Sidebar() {
-  const { setIsExportOpen, setActiveTab, setBottomTab, loadHistory, showHistory, setShowHistory, historyItems, setTheme, isDarkMode, toggleDarkMode } = useTokenStore();
+  const { setIsExportOpen, setActiveTab, setBottomTab, loadHistory, showHistory, setShowHistory, historyItems, setTheme, isDarkMode, toggleDarkMode, isSidebarOpen, setIsSidebarOpen } = useTokenStore();
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const showToast = (msg: string) => {
@@ -15,16 +15,35 @@ export function Sidebar() {
   };
 
   return (
-    <aside className="w-54 border-r border-border bg-surface flex flex-col py-6 px-4 shrink-0 relative">
-      <div className="flex items-center gap-3 mb-10 px-2">
-        <div className="w-8 h-8 rounded bg-gradient-to-br from-primary to-blue-500 flex items-center justify-center">
-          <Sparkles className="w-5 h-5 text-white" />
+    <>
+      {/* Mobile Backdrop */}
+      <AnimatePresence>
+        {isSidebarOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsSidebarOpen(false)}
+            className="lg:hidden fixed inset-0 bg-black/60 z-40 backdrop-blur-sm"
+          />
+        )}
+      </AnimatePresence>
+
+      <aside className={`w-64 border-r border-border bg-background lg:bg-background/95 flex flex-col py-6 px-4 shrink-0 fixed inset-y-0 left-0 z-50 transform transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+        <div className="flex items-center justify-between mb-10 px-2">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded bg-gradient-to-br from-primary to-blue-500 flex items-center justify-center">
+              <Sparkles className="w-5 h-5 text-white" />
+            </div>
+            <div>
+              <h1 className="font-bold text-lg leading-tight">TokenVibe AI</h1>
+              <p className="text-[10px] text-muted-foreground">Semantic Design System</p>
+            </div>
+          </div>
+          <button onClick={() => setIsSidebarOpen(false)} className="lg:hidden p-2 text-muted-foreground hover:text-foreground">
+            <X className="w-5 h-5" />
+          </button>
         </div>
-        <div>
-          <h1 className="font-bold text-lg leading-tight">TokenVibe AI</h1>
-          <p className="text-[10px] text-zinc-400">Semantic Design System</p>
-        </div>
-      </div>
 
       <div className="flex-1 overflow-y-auto custom-scrollbar -mx-2 px-2">
         <nav className="space-y-1 mb-8">
@@ -135,4 +154,7 @@ export function Sidebar() {
       </AnimatePresence>
     </aside>
   );
+  </>
+)
 }
+
