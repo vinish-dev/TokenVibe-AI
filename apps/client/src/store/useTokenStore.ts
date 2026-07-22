@@ -1,71 +1,9 @@
 import { create } from 'zustand';
 
-export interface ThemeSchema {
-  metadata: {
-    name: string;
-    description: string;
-    prompt: string;
-  };
-  intent: {
-    style: string;
-    mood: string;
-    industry: string;
-  };
-  colors: {
-    primary: string;
-    primaryForeground: string;
-    secondary: string;
-    secondaryForeground: string;
-    background: string;
-    surface: string;
-    foreground: string;
-    muted: string;
-    mutedForeground: string;
-    border: string;
-    ring: string;
-    success: string;
-    warning: string;
-    error: string;
-  };
-  charts: {
-    palette: string[];
-  };
-  gradients?: {
-    primary?: string;
-    hero?: string;
-  };
-  typography: {
-    headingFont: string;
-    bodyFont: string;
-    baseFontSize: string;
-  };
-  spacing: {
-    sm: string;
-    md: string;
-    lg: string;
-    xl: string;
-  };
-  radius: {
-    sm: string;
-    md: string;
-    lg: string;
-    full: string;
-  };
-  shadows: {
-    sm: string;
-    md: string;
-    lg: string;
-  };
-  motion: {
-    duration: string;
-    easing: string;
-  };
-  components: {
-    button: "filled" | "outlined" | "ghost";
-    input: "filled" | "outlined" | "underlined";
-    card: "flat" | "elevated" | "bordered";
-  };
-}
+import { ThemeSchema } from '@tokenvibe/shared';
+
+export type ActiveTab = 'web' | 'mobile' | 'components';
+export type BottomTab = 'colors' | 'typography' | 'spacing' | 'radius';
 
 interface TokenState {
   theme: ThemeSchema;
@@ -73,6 +11,16 @@ interface TokenState {
   updateThemeValue: (path: string[], value: any) => void;
   isExportOpen: boolean;
   setIsExportOpen: (isOpen: boolean) => void;
+  activeTab: ActiveTab;
+  setActiveTab: (tab: ActiveTab) => void;
+  bottomTab: BottomTab;
+  setBottomTab: (tab: BottomTab) => void;
+  showHistory: boolean;
+  setShowHistory: (show: boolean) => void;
+  historyItems: any[];
+  loadHistory: () => Promise<void>;
+  isDarkMode: boolean;
+  toggleDarkMode: () => void;
 }
 
 const defaultTheme: ThemeSchema = {
@@ -138,7 +86,7 @@ const defaultTheme: ThemeSchema = {
   }
 };
 
-export const useTokenStore = create<TokenState>((set) => ({
+export const useTokenStore = create<TokenState>((set, get) => ({
   theme: defaultTheme,
   setTheme: (theme) => set({ theme }),
   updateThemeValue: (path, value) => set((state) => {
@@ -153,4 +101,44 @@ export const useTokenStore = create<TokenState>((set) => ({
   }),
   isExportOpen: false,
   setIsExportOpen: (isOpen) => set({ isExportOpen: isOpen }),
+  activeTab: 'web',
+  setActiveTab: (tab) => set({ activeTab: tab }),
+  bottomTab: 'colors',
+  setBottomTab: (tab) => set({ bottomTab: tab }),
+  showHistory: false,
+  setShowHistory: (show) => set({ showHistory: show }),
+  historyItems: [],
+  loadHistory: async () => {
+    const { showHistory } = get();
+    if (showHistory) {
+      set({ showHistory: false });
+      return;
+    }
+    try {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+      const res = await fetch(`${apiUrl}/api/themes/mock-user-123`);
+      if (!res.ok) throw new Error("Failed to fetch");
+      const data = await res.json();
+      set({ historyItems: data, showHistory: true });
+    } catch (e) {
+      console.error(e);
+      // Fallback for when API server is not running
+      set({ 
+        historyItems: [{ id: 'mock-1', name: 'Sample Saved Theme', createdAt: new Date().toISOString() }], 
+        showHistory: true 
+      });
+    }
+  },
+  isDarkMode: true,
+  toggleDarkMode: () => {
+    const newDarkMode = !get().isDarkMode;
+    set({ isDarkMode: newDarkMode });
+    if (typeof window !== 'undefined') {
+      if (newDarkMode) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    }
+  }
 }));

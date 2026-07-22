@@ -6,7 +6,7 @@ The application provides a live preview of the generated design tokens across mu
 
 ## Features
 
-- **AI Theme Generation (Mock)**: Simulates an AI backend generating complete design systems based on a flat, highly impactful semantic `ThemeSchema`.
+- **AI Theme Generation**: Integrates with the Google Gemini API to dynamically generate complete design systems based on a flat, highly impactful semantic `ThemeSchema`.
 - **Live Preview UI**: Instantly renders the generated design tokens in realistic UI environments:
   - **Web Dashboard**: A full SaaS dashboard mockup.
   - **Mobile App**: A native mobile app layout mockup.
@@ -25,23 +25,18 @@ The application provides a live preview of the generated design tokens across mu
 
 ## Project Structure
 
-\`\`\`
-src/
-├── app/
-│   ├── globals.css        # Tailwind v4 directives and CSS variable mappings
-│   ├── layout.tsx         # Root layout
-│   └── page.tsx           # Main application view
-├── components/
-│   ├── controls/          # Sidebar controls (Prompt, Personality, Sliders)
-│   ├── export/            # Export Modal and Generators
-│   ├── layout/            # Application Sidebar and Navbar
-│   └── preview/           # Live Preview Container (Web, Mobile, Components)
-├── store/
-│   └── useTokenStore.ts   # Zustand store defining ThemeSchema and global state
-└── utils/
-    ├── ai/                # Mock AI Generation Service (aiMockService.ts)
-    └── export/            # Exporter functions for different targets
-\`\`\`
+```
+apps/
+├── client/              # Next.js Frontend
+│   ├── src/app/         # Next.js App Router (globals.css, layout.tsx, page.tsx)
+│   ├── src/components/  # UI components (controls, preview, layout)
+│   └── src/store/       # Zustand store (useTokenStore.ts)
+└── server/              # Express Backend
+    └── src/             # Gemini API integration and Express route handlers
+packages/
+└── shared/              # Shared Types and Schemas
+    └── index.ts         # ThemeSchema definition used by both client and server
+```
 
 ## Architecture & Theming Approach
 
@@ -68,11 +63,11 @@ TokenVibe AI intentionally uses a **simplified semantic schema** (`ThemeSchema`)
 
 3. Open [http://localhost:3000](http://localhost:3000) with your browser.
 
-## Next Steps for Development
+## V2 Features (Completed)
 
-If you are picking up this project, here are the recommended next steps:
+We have successfully implemented the following V2 features:
 
-1. **Real AI Integration**: Connect the `ControlsPanel.tsx` generation function to a real AI backend (e.g., Google Gemini or OpenAI) using the `ThemeSchema` as the structured JSON output format.
-2. **Expand the Component Gallery**: Add more complex UI components to `ComponentsPreview.tsx` (like data tables, charts, or date pickers).
-3. **Advanced Export Options**: Expand the `exportGenerators.ts` to support deeper configuration or download as actual `.zip` files containing the generated boilerplate.
-4. **User Accounts & Database**: Implement real functionality for the mocked "My Systems", "History", and "Save System" buttons in the sidebar and header.
+1. **Component Gallery Expansion**: Added a realistic Data Table and a dynamic Area Chart using `recharts` to `ComponentsPreview.tsx`.
+2. **Advanced Export Options**: Integrated `jszip` and `file-saver` to allow users to download a full `.zip` bundle containing CSS, Tailwind Configs, Jetpack Compose, Flutter, Figma Tokens, and the raw JSON schema.
+3. **Database Integration**: Built a Prisma ORM + SQLite database in the Express backend. Saving themes and viewing historical themes is now fully functional.
+4. **Enhanced Prompts**: Wired the 6 design sliders (Warmth, Energy, Luxury, Minimalism, Roundedness, Animation) directly into the Gemini prompt payload to strongly influence the generated styles.
