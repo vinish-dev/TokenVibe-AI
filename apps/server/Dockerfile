@@ -11,9 +11,6 @@ RUN npm install
 # Copy source code and prisma schema
 COPY . .
 
-# Generate Prisma Client (even though we don't strictly need it for history, the code still imports it)
-RUN npx prisma generate
-
 # Build TypeScript code (if there is a build step, though currently we use ts-node or run directly)
 # Since the server currently runs using tsx/ts-node, we'll install it globally or run it directly
 RUN npm install -g typescript ts-node
