@@ -58,6 +58,8 @@ TokenVibe AI intentionally uses a **simplified semantic schema** (`ThemeSchema`)
    - Tailwind v4 maps these variables in `globals.css` using the `@theme inline` directive.
 4. **Component Styles**: Lightweight stylistic preferences (like button style or card elevation) are stored in `theme.components` and applied via CSS data attributes (e.g., `data-btn="pill"`).
 
+Why no database?
+TokenVibe AI stores user-specific theme history and preferences in browser localStorage because they are personal, client-side data. The backend is intentionally stateless and focuses solely on AI-powered theme generation. This reduces infrastructure complexity, lowers hosting costs, improves scalability, and aligns well with managed cloud services like AWS App Runner.
 ## Running Locally
 
 1. Install dependencies from the root directory:
