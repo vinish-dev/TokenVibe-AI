@@ -57,9 +57,9 @@ export function ControlsPanel() {
           ? fallbackMatches[Math.floor(Math.random() * fallbackMatches.length)]
           : presetThemes[Math.floor(Math.random() * presetThemes.length)];
       } else {
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
-        
-        const response = await fetch(`${apiUrl}/api/generate`, {
+        // We now call the Next.js API proxy route, which securely forwards to the ECS backend
+        // This solves the Mixed Content error since the browser only sees a same-origin request.
+        const response = await fetch(`/api/generate`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ prompt, personality, sliderValues })
