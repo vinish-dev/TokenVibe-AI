@@ -14,12 +14,12 @@ app.get("/health", (req, res) => {
 
 app.post("/api/generate", async (req, res) => {
   try {
-    const { prompt, personality, sliderValues } = req.body;
+    const { prompt, personality, sliderValues, brandColor } = req.body;
     if (!prompt || !personality) {
       return res.status(400).json({ error: "Missing prompt or personality" });
     }
 
-    const theme = await generateThemeWithGemini(prompt, personality, sliderValues);
+    const theme = await generateThemeWithGemini(prompt, personality, sliderValues, brandColor);
     res.json(theme);
   } catch (error: any) {
     console.error("Error generating theme:", error);

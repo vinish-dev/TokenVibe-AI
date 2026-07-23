@@ -29,6 +29,7 @@ export function ControlsPanel() {
     animation: 50,
   });
   const [prompt, setPrompt] = useState("");
+  const [brandColor, setBrandColor] = useState("");
   const [isSurpriseMeMode, setIsSurpriseMeMode] = useState(false);
 
   const togglePersonality = (pill: string) => {
@@ -69,7 +70,7 @@ export function ControlsPanel() {
         const response = await fetch(`/api/generate`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ prompt, personality, sliderValues })
+          body: JSON.stringify({ prompt, personality, sliderValues, brandColor })
         });
         
         if (!response.ok) throw new Error("Failed to generate theme");
@@ -128,6 +129,7 @@ export function ControlsPanel() {
             setSelectedPersonalities(['Modern']);
             setSliderValues({ warmth: 65, energy: 40, luxury: 70, minimalism: 60, roundedness: 80, animation: 50 });
             setPrompt("");
+            setBrandColor("");
             setIsSurpriseMeMode(false);
           }}
         >
@@ -209,6 +211,36 @@ export function ControlsPanel() {
               transition={{ type: "spring", stiffness: 500, damping: 30 }}
             />
           </button>
+        </div>
+      </div>
+      
+      <div className="flex items-center gap-3 mb-4">
+        <label className="text-xs font-medium text-muted-foreground whitespace-nowrap">Brand Color</label>
+        <div className="flex items-center gap-2 bg-surface border border-border rounded-lg p-1 w-full opacity-100 transition-opacity" style={{ opacity: isSurpriseMeMode ? 0.5 : 1 }}>
+          <input 
+            type="color" 
+            value={brandColor || "#000000"} 
+            onChange={(e) => setBrandColor(e.target.value)}
+            disabled={isSurpriseMeMode}
+            className="w-6 h-6 rounded cursor-pointer border-0 p-0 bg-transparent"
+          />
+          <input 
+            type="text" 
+            placeholder="#HEX (Optional)" 
+            value={brandColor}
+            onChange={(e) => setBrandColor(e.target.value)}
+            disabled={isSurpriseMeMode}
+            className="bg-transparent border-none outline-none text-xs w-full text-foreground placeholder:text-muted-foreground/50"
+          />
+          {brandColor && (
+            <button 
+              onClick={() => setBrandColor("")} 
+              disabled={isSurpriseMeMode}
+              className="text-muted-foreground hover:text-foreground text-[10px] px-2"
+            >
+              Clear
+            </button>
+          )}
         </div>
       </div>
       

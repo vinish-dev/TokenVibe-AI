@@ -113,12 +113,15 @@ const schemaDef = {
   required: ["metadata", "intent", "colors", "charts", "typography", "spacing", "radius", "shadows", "motion", "components"]
 };
 
-export async function generateThemeWithGemini(prompt: string, personality: string, sliderValues?: Record<string, number>): Promise<ThemeSchema> {
+export async function generateThemeWithGemini(prompt: string, personality: string, sliderValues?: Record<string, number>, brandColor?: string): Promise<ThemeSchema> {
   const systemInstruction = `You are an expert UI/UX designer. Given a prompt, personality, and slider values (0-100), generate a comprehensive semantic design system theme schema. Ensure colors have good contrast and typography choices match the personality. Ensure the response perfectly aligns with the requested JSON schema.`;
   
   let userMessage = `Generate a design system theme based on this prompt: "${prompt}" with this personality: "${personality}".`;
   if (sliderValues) {
     userMessage += ` Also consider these specific design slider traits (0-100 scale): ${JSON.stringify(sliderValues)}. Adjust the colors, fonts, spacing, shadows, and radii accordingly to reflect these traits.`;
+  }
+  if (brandColor && brandColor.trim() !== "") {
+    userMessage += ` \n\nCRITICAL: The user has specified an exact brand color of ${brandColor}. You MUST set the \`colors.primary\` value strictly to ${brandColor}. All other colors in the palette (secondary, background, surface, muted, etc.) must be generated to perfectly complement and harmonize with this primary brand color.`;
   }
 
   // Provide a fallback in case API key is missing
