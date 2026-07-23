@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Sparkles, LayoutDashboard, Palette, Type, Layers, Eye, Download, Settings, Moon, Sun, Compass, Clock, FolderHeart, Info, X } from "lucide-react";
+import { Sparkles, LayoutDashboard, Palette, Type, Layers, Eye, Download, Settings, Moon, Sun, Compass, Clock, FolderHeart, Info, X, Trash2 } from "lucide-react";
 import { useTokenStore } from "@/store/useTokenStore";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -76,37 +76,47 @@ export function Sidebar() {
               <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="w-full bg-background border border-border rounded-lg p-2 mt-2 overflow-hidden">
                 <h4 className="text-xs font-bold text-muted-foreground mb-2 px-2 uppercase tracking-wider">Saved Themes</h4>
                 {historyItems.length === 0 ? (
-                  <p className="text-xs text-zinc-500 px-2 py-1">No themes saved yet.</p>
+                  <p className="text-xs text-muted-foreground px-2 py-1">No themes saved yet.</p>
                 ) : (
-                  <div className="flex flex-col gap-1 max-h-64 overflow-y-auto">
+                  <div className="flex flex-col gap-1 max-h-64 overflow-y-auto custom-scrollbar">
                     {historyItems.map((item) => (
-                      <button 
-                        key={item.id}
-                        onClick={() => {
-                          if (item.schemaJson) {
-                            try {
-                              const parsedSchema = typeof item.schemaJson === 'string' 
-                                ? JSON.parse(item.schemaJson) 
-                                : item.schemaJson;
-                              
-                              if (parsedSchema && parsedSchema.colors) {
-                                setTheme(parsedSchema);
-                              } else {
-                                console.warn("Invalid schema shape: missing colors", parsedSchema);
+                      <div key={item.id} className="flex items-center justify-between group px-2 py-1.5 hover:bg-surface rounded transition-colors">
+                        <button 
+                          onClick={() => {
+                            if (item.schemaJson) {
+                              try {
+                                const parsedSchema = typeof item.schemaJson === 'string' 
+                                  ? JSON.parse(item.schemaJson) 
+                                  : item.schemaJson;
+                                
+                                if (parsedSchema && parsedSchema.colors) {
+                                  setTheme(parsedSchema);
+                                } else {
+                                  console.warn("Invalid schema shape: missing colors", parsedSchema);
+                                }
+                              } catch (e) {
+                                console.error("Failed to parse schema JSON", e);
                               }
-                            } catch (e) {
-                              console.error("Failed to parse schema JSON", e);
                             }
-                          } else {
-                            console.log("No schema available for this mock item");
-                          }
-                          setShowHistory(false);
-                        }}
-                        className="text-left px-2 py-1.5 hover:bg-zinc-800 rounded text-sm text-zinc-300 truncate"
-                      >
-                        {item.name}
-                        <div className="text-[10px] text-zinc-500">{new Date(item.createdAt).toLocaleDateString()}</div>
-                      </button>
+                            setShowHistory(false);
+                          }}
+                          className="flex-1 text-left text-sm text-foreground truncate"
+                        >
+                          {item.name}
+                          <div className="text-[10px] text-muted-foreground">{new Date(item.createdAt).toLocaleDateString()}</div>
+                        </button>
+                        
+                        <button 
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            useTokenStore.getState().deleteTheme(item.id);
+                          }}
+                          className="p-1.5 text-muted-foreground opacity-0 group-hover:opacity-100 hover:text-error hover:bg-error/10 rounded transition-all shrink-0"
+                          title="Delete saved theme"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
                     ))}
                   </div>
                 )}

@@ -11,17 +11,13 @@ export function Navbar() {
   const handleSave = async () => {
     setIsSaving(true);
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
-      await fetch(`${apiUrl}/api/themes`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          userId: 'mock-user-123',
-          name: theme.metadata.name || 'Untitled Theme',
-          schemaJson: theme
-        })
-      });
-      alert('Theme saved successfully!');
+      const isSuccess = await useTokenStore.getState().saveTheme(theme);
+      
+      if (!isSuccess) {
+        alert('This theme is already saved in your history!');
+      } else {
+        alert('Theme saved successfully!');
+      }
     } catch (e) {
       alert('Failed to save theme');
     } finally {

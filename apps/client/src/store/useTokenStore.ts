@@ -19,6 +19,8 @@ interface TokenState {
   setShowHistory: (show: boolean) => void;
   historyItems: any[];
   loadHistory: () => Promise<void>;
+  saveTheme: (theme: ThemeSchema) => Promise<boolean>;
+  deleteTheme: (id: string) => void;
   isDarkMode: boolean;
   toggleDarkMode: () => void;
   isSidebarOpen: boolean;
@@ -129,11 +131,41 @@ export const useTokenStore = create<TokenState>((set, get) => ({
     } catch (e) {
       console.error(e);
       // Fallback for when API server is not running
-      set({ 
-        historyItems: [{ id: 'mock-1', name: 'Sample Saved Theme', createdAt: new Date().toISOString() }], 
-        showHistory: true 
-      });
+      const currentItems = get().historyItems;
+      if (currentItems.length === 0) {
+        set({ 
+          historyItems: [{ id: 'mock-1', name: 'Sample Saved Theme', createdAt: new Date().toISOString(), schemaJson: defaultTheme }], 
+          showHistory: true 
+        });
+      } else {
+        set({ showHistory: true });
+      }
     }
+  },
+  saveTheme: async (newTheme) => {
+    const { historyItems } = get();
+    // Check for duplicates by comparing colors (simplest proxy for unique theme)
+    const isDuplicate = historyItems.some(item => {
+      if (!item.schemaJson || !item.schemaJson.colors) return false;
+      return JSON.stringify(item.schemaJson.colors) === JSON.stringify(newTheme.colors);
+    });
+    
+    if (isDuplicate) {
+      return false; // Indicates duplicate
+    }
+    
+    const newItem = {
+      id: `mock-${Date.now()}`,
+      name: newTheme.metadata.name || 'Untitled Theme',
+      createdAt: new Date().toISOString(),
+      schemaJson: newTheme
+    };
+    
+    set({ historyItems: [newItem, ...historyItems] });
+    return true; // Indicates success
+  },
+  deleteTheme: (id) => {
+    set({ historyItems: get().historyItems.filter(item => item.id !== id) });
   },
   isDarkMode: true,
   toggleDarkMode: () => {
