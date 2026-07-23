@@ -126,19 +126,11 @@ export const useTokenStore = create<TokenState>()(
           set({ showHistory: false });
           return;
         }
-        try {
-          const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
-          const res = await fetch(`${apiUrl}/api/themes/mock-user-123`);
-          if (!res.ok) throw new Error("Failed to fetch");
-          const data = await res.json();
-          set({ historyItems: data, showHistory: true });
-        } catch (e) {
-          console.error("Failed to load history from database", e);
-          set({ showHistory: true });
-        }
+        // Local storage automatically loads historyItems via persist middleware
+        set({ showHistory: true });
       },
       saveTheme: async (newTheme) => {
-        const { historyItems, loadHistory } = get();
+        const { historyItems } = get();
         // Check for duplicates by comparing colors (simplest proxy for unique theme)
         const isDuplicate = historyItems.some(item => {
           if (!item.schemaJson) return false;
@@ -154,39 +146,18 @@ export const useTokenStore = create<TokenState>()(
           return false; // Indicates duplicate
         }
         
-        try {
-          const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
-          const res = await fetch(`${apiUrl}/api/themes`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              userId: 'mock-user-123',
-              name: newTheme.metadata.name || 'Untitled Theme',
-              schemaJson: newTheme
-            })
-          });
-          
-          if (!res.ok) throw new Error("Failed to save to database");
-          
-          // Refresh list
-          const fetchRes = await fetch(`${apiUrl}/api/themes/mock-user-123`);
-          if (fetchRes.ok) {
-            set({ historyItems: await fetchRes.json() });
-          }
-          return true; // Indicates success
-        } catch (error) {
-          console.error("Save to DB failed:", error);
-          return false;
-        }
+        const newItem = {
+          id: `local-${Date.now()}`,
+          name: newTheme.metadata.name || 'Untitled Theme',
+          createdAt: new Date().toISOString(),
+          schemaJson: newTheme
+        };
+        
+        set({ historyItems: [newItem, ...historyItems] });
+        return true; // Indicates success
       },
       deleteTheme: async (id) => {
-        try {
-          const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
-          await fetch(`${apiUrl}/api/themes/${id}`, { method: 'DELETE' });
-          set({ historyItems: get().historyItems.filter(item => item.id !== id) });
-        } catch (error) {
-          console.error("Failed to delete theme from DB", error);
-        }
+        set({ historyItems: get().historyItems.filter(item => item.id !== id) });
       },
       isDarkMode: true,
       toggleDarkMode: () => {
@@ -210,6 +181,7 @@ export const useTokenStore = create<TokenState>()(
     {
       name: 'tokenvibe-storage',
       partialize: (state) => ({ 
+        historyItems: state.historyItems,
         theme: state.theme,
         isDarkMode: state.isDarkMode
       })
