@@ -29,6 +29,7 @@ export function ControlsPanel() {
     animation: 50,
   });
   const [prompt, setPrompt] = useState("");
+  const [isSurpriseMeMode, setIsSurpriseMeMode] = useState(false);
 
   const togglePersonality = (pill: string) => {
     setSelectedPersonalities(prev => 
@@ -48,16 +49,25 @@ export function ControlsPanel() {
 
     try {
       const personality = selectedPersonalities.length > 0 ? selectedPersonalities[0] : 'Modern';
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
       
-      const response = await fetch(`${apiUrl}/api/generate`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt, personality, sliderValues })
-      });
-      
-      if (!response.ok) throw new Error("Failed to generate theme");
-      generatedTheme = await response.json();
+      // SURPRISE ME FEATURE: If toggle is on, skip API and pick a preset instantly
+      if (isSurpriseMeMode || prompt.trim() === "") {
+        const fallbackMatches = presetThemes.filter(t => t.intent.mood === personality || t.intent.style === personality);
+        generatedTheme = fallbackMatches.length > 0 
+          ? fallbackMatches[Math.floor(Math.random() * fallbackMatches.length)]
+          : presetThemes[Math.floor(Math.random() * presetThemes.length)];
+      } else {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+        
+        const response = await fetch(`${apiUrl}/api/generate`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ prompt, personality, sliderValues })
+        });
+        
+        if (!response.ok) throw new Error("Failed to generate theme");
+        generatedTheme = await response.json();
+      }
     } catch (error) {
       console.error("AI Generation failed, falling back to presets:", error);
       const personality = selectedPersonalities.length > 0 ? selectedPersonalities[0] : 'Modern';
@@ -106,6 +116,7 @@ export function ControlsPanel() {
             setSelectedPersonalities(['Modern']);
             setSliderValues({ warmth: 65, energy: 40, luxury: 70, minimalism: 60, roundedness: 80, animation: 50 });
             setPrompt("");
+            setIsSurpriseMeMode(false);
           }}
         >
           Reset
@@ -170,14 +181,32 @@ export function ControlsPanel() {
         ))}
       </div>
 
-      <h2 className="text-sm font-medium mb-3">2. Describe Your Product</h2>
+      <div className="flex justify-between items-center mb-3 gap-2">
+        <h2 className="text-sm font-medium whitespace-nowrap truncate">2. Describe Product</h2>
+        <div className="flex items-center gap-2">
+          <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-wider">Surprise Me</span>
+          <button 
+            type="button"
+            onClick={() => setIsSurpriseMeMode(!isSurpriseMeMode)}
+            className={`w-8 h-4 rounded-full relative transition-colors ${isSurpriseMeMode ? 'bg-primary' : 'bg-zinc-300 dark:bg-zinc-700'}`}
+          >
+            <motion.div 
+              className="w-3 h-3 bg-white rounded-full absolute top-0.5 shadow-sm"
+              animate={{ left: isSurpriseMeMode ? '18px' : '2px' }}
+              transition={{ type: "spring", stiffness: 500, damping: 30 }}
+            />
+          </button>
+        </div>
+      </div>
+      
       <div className="relative mb-6">
         <textarea 
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
+          disabled={isSurpriseMeMode}
           maxLength={300}
-          className="w-full bg-surface border border-border rounded-xl p-3 pb-8 min-h-32 text-sm text-foreground focus:outline-none focus:border-primary transition-all resize-none shadow-inner" 
-          placeholder="An AI productivity platform for professionals that helps them plan, focus, and achieve more with intelligent assistance."
+          className={`w-full bg-surface border border-border rounded-xl p-3 pb-8 min-h-32 text-sm text-foreground focus:outline-none focus:border-primary transition-all resize-none shadow-inner ${isSurpriseMeMode ? 'opacity-50 cursor-not-allowed grayscale' : ''}`} 
+          placeholder={isSurpriseMeMode ? "Surprise mode active..." : "An AI productivity platform for professionals that helps them plan, focus, and achieve more with intelligent assistance."}
         />
         <span className="absolute bottom-3 right-3 text-[10px] text-muted-foreground">{prompt.length} / 300</span>
       </div>
@@ -209,7 +238,11 @@ export function ControlsPanel() {
                 exit={{ opacity: 0, y: 10 }}
                 className="flex items-center gap-2"
               >
-                Generate Design System <Sparkles className="w-4 h-4" />
+                {isSurpriseMeMode ? (
+                  <>Surprise Me 🎲</>
+                ) : (
+                  <>Generate Design System <Sparkles className="w-4 h-4" /></>
+                )}
               </motion.div>
             )}
           </AnimatePresence>

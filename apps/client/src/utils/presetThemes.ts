@@ -140,5 +140,180 @@ export const presetThemes: ThemeSchema[] = [
     motion: { duration: "200ms", easing: "cubic-bezier(0.4, 0, 0.2, 1)" },
     components: { button: "filled", input: "outlined", card: "elevated" },
     charts: { palette: ["#635bff", "#00d924", "#ffb400", "#ff2f40", "#0a2540"] }
+  },
+  {
+    metadata: {
+      name: "Pastel Dreams",
+      description: "Soft, soothing, and approachable. Uses muted pastel tones for a friendly vibe.",
+      prompt: "A soft and soothing pastel theme."
+    },
+    intent: { style: "Pastel", mood: "Friendly", industry: "Creative" },
+    colors: {
+      primary: "#ffb7b2",
+      primaryForeground: "#5c3a38",
+      secondary: "#e2f0cb",
+      secondaryForeground: "#3e4d34",
+      background: "#fffaf0",
+      surface: "#ffffff",
+      foreground: "#4a4a4a",
+      muted: "#f4ece6",
+      mutedForeground: "#9a8c84",
+      border: "#e8dcd4",
+      ring: "rgba(255,183,178,0.4)",
+      success: "#b5ead7",
+      warning: "#ffdac1",
+      error: "#ff9aa2"
+    },
+    typography: { headingFont: "Quicksand, sans-serif", bodyFont: "Nunito, sans-serif", baseFontSize: "16px" },
+    spacing: { sm: "0.5rem", md: "1.25rem", lg: "2rem", xl: "3.5rem" },
+    radius: { sm: "0.5rem", md: "1rem", lg: "1.5rem", full: "9999px" },
+    shadows: {
+      sm: "0 2px 8px rgba(0,0,0,0.02)",
+      md: "0 8px 24px rgba(0,0,0,0.04)",
+      lg: "0 16px 40px rgba(0,0,0,0.06)"
+    },
+    motion: { duration: "400ms", easing: "ease-in-out" },
+    components: { button: "filled", input: "filled", card: "elevated" },
+    charts: { palette: ["#ffb7b2", "#b5ead7", "#ffdac1", "#e2f0cb", "#c7ceea"] }
+  },
+  {
+    metadata: {
+      name: "Earthy Nature",
+      description: "Organic, grounded, and calming. Perfect for sustainability or outdoor brands.",
+      prompt: "An organic earthy theme inspired by nature."
+    },
+    intent: { style: "Organic", mood: "Calm", industry: "Health" },
+    colors: {
+      primary: "#4a5d23",
+      primaryForeground: "#ffffff",
+      secondary: "#8c705f",
+      secondaryForeground: "#ffffff",
+      background: "#fdfbf7",
+      surface: "#f5f2eb",
+      foreground: "#2c3325",
+      muted: "#e3dfd5",
+      mutedForeground: "#6b705c",
+      border: "#d4cebe",
+      ring: "rgba(74,93,35,0.3)",
+      success: "#588157",
+      warning: "#d4a373",
+      error: "#bc4749"
+    },
+    typography: { headingFont: "Lora, serif", bodyFont: "Inter, sans-serif", baseFontSize: "16px" },
+    spacing: { sm: "0.5rem", md: "1rem", lg: "1.5rem", xl: "3rem" },
+    radius: { sm: "0.25rem", md: "0.5rem", lg: "0.75rem", full: "9999px" },
+    shadows: {
+      sm: "0 1px 3px rgba(0,0,0,0.05)",
+      md: "0 4px 6px rgba(44,51,37,0.05)",
+      lg: "0 10px 15px rgba(44,51,37,0.08)"
+    },
+    motion: { duration: "350ms", easing: "cubic-bezier(0.4, 0, 0.2, 1)" },
+    components: { button: "filled", input: "outlined", card: "bordered" },
+    charts: { palette: ["#4a5d23", "#8c705f", "#588157", "#d4a373", "#bc4749"] }
+  },
+  {
+    metadata: {
+      name: "Mint Breeze",
+      description: "A refreshing, cool pastel theme with soft mints, teals, and breezy blues. Extremely light and airy.",
+      prompt: "A refreshing pastel mint and soft blue theme."
+    },
+    intent: { style: "Pastel", mood: "Friendly", industry: "Health" },
+    colors: {
+      primary: "#a8e6cf",
+      primaryForeground: "#2a5948",
+      secondary: "#dcedc1",
+      secondaryForeground: "#4f633c",
+      background: "#f4fcf9",
+      surface: "#ffffff",
+      foreground: "#3d544b",
+      muted: "#e9f5f0",
+      mutedForeground: "#7e9c90",
+      border: "#d1ebe0",
+      ring: "rgba(168,230,207,0.4)",
+      success: "#b2e2b8",
+      warning: "#fdeeb3",
+      error: "#ffb3ba"
+    },
+    typography: { headingFont: "Outfit, sans-serif", bodyFont: "Inter, sans-serif", baseFontSize: "16px" },
+    spacing: { sm: "0.5rem", md: "1.25rem", lg: "2.5rem", xl: "4rem" },
+    radius: { sm: "0.75rem", md: "1.25rem", lg: "2rem", full: "9999px" },
+    shadows: {
+      sm: "0 4px 10px rgba(168,230,207,0.1)",
+      md: "0 10px 25px rgba(168,230,207,0.15)",
+      lg: "0 20px 40px rgba(168,230,207,0.2)"
+    },
+    motion: { duration: "450ms", easing: "ease-in-out" },
+    components: { button: "filled", input: "filled", card: "elevated" },
+    charts: { palette: ["#a8e6cf", "#dcedc1", "#b2e2b8", "#fdeeb3", "#ffb3ba"] }
+  },
+  {
+    metadata: {
+      name: "Lavender Haze",
+      description: "A soft, dreamy purple and pink pastel theme. Elegant, magical, and highly creative.",
+      prompt: "A dreamy pastel lavender and soft pink theme."
+    },
+    intent: { style: "Pastel", mood: "Elegant", industry: "Creative" },
+    colors: {
+      primary: "#c8b6ff",
+      primaryForeground: "#ffffff",
+      secondary: "#e7c6ff",
+      secondaryForeground: "#5c407c",
+      background: "#fcfbff",
+      surface: "#ffffff",
+      foreground: "#433a57",
+      muted: "#f3f0fb",
+      mutedForeground: "#8a819c",
+      border: "#e5dffa",
+      ring: "rgba(200,182,255,0.4)",
+      success: "#b5ead7",
+      warning: "#ffdac1",
+      error: "#ffb7b2"
+    },
+    typography: { headingFont: "Playfair Display, serif", bodyFont: "DM Sans, sans-serif", baseFontSize: "16px" },
+    spacing: { sm: "0.375rem", md: "1rem", lg: "2rem", xl: "3.5rem" },
+    radius: { sm: "1rem", md: "1.5rem", lg: "2rem", full: "9999px" },
+    shadows: {
+      sm: "0 2px 10px rgba(200,182,255,0.1)",
+      md: "0 8px 30px rgba(200,182,255,0.15)",
+      lg: "0 15px 40px rgba(200,182,255,0.25)"
+    },
+    motion: { duration: "500ms", easing: "cubic-bezier(0.2, 0.8, 0.2, 1)" },
+    components: { button: "filled", input: "outlined", card: "elevated" },
+    charts: { palette: ["#c8b6ff", "#e7c6ff", "#ffd6ff", "#b5ead7", "#ffdac1"] }
+  },
+  {
+    metadata: {
+      name: "Peachy Keen",
+      description: "A warm, sunny pastel theme utilizing soft oranges and yellows. Friendly and highly energetic.",
+      prompt: "A warm pastel peach and yellow theme."
+    },
+    intent: { style: "Pastel", mood: "Playful", industry: "Retail" },
+    colors: {
+      primary: "#ffc8a2",
+      primaryForeground: "#6b452b",
+      secondary: "#ffee93",
+      secondaryForeground: "#665e29",
+      background: "#fffcf9",
+      surface: "#ffffff",
+      foreground: "#54463d",
+      muted: "#fcf2eb",
+      mutedForeground: "#a89487",
+      border: "#fae2d2",
+      ring: "rgba(255,200,162,0.4)",
+      success: "#c5e6a1",
+      warning: "#ffd670",
+      error: "#ff9b9b"
+    },
+    typography: { headingFont: "Fredoka One, cursive", bodyFont: "Varela Round, sans-serif", baseFontSize: "16px" },
+    spacing: { sm: "0.5rem", md: "1.5rem", lg: "2.5rem", xl: "4rem" },
+    radius: { sm: "1rem", md: "2rem", lg: "3rem", full: "9999px" },
+    shadows: {
+      sm: "0 5px 15px rgba(255,200,162,0.15)",
+      md: "0 10px 25px rgba(255,200,162,0.25)",
+      lg: "0 20px 45px rgba(255,200,162,0.3)"
+    },
+    motion: { duration: "300ms", easing: "cubic-bezier(0.34, 1.56, 0.64, 1)" }, // slight bounce
+    components: { button: "filled", input: "filled", card: "elevated" },
+    charts: { palette: ["#ffc8a2", "#ffee93", "#c5e6a1", "#ffd670", "#ff9b9b"] }
   }
 ];
