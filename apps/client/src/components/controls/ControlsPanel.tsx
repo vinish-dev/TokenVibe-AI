@@ -112,6 +112,7 @@ export function ControlsPanel() {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+          title="Reset all selections to default values"
           onClick={() => {
             setSelectedPersonalities(['Modern']);
             setSliderValues({ warmth: 65, energy: 40, luxury: 70, minimalism: 60, roundedness: 80, animation: 50 });
@@ -187,6 +188,7 @@ export function ControlsPanel() {
           <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-wider">Surprise Me</span>
           <button 
             type="button"
+            title="Turn on to instantly generate a random theme based on your personality, skipping the AI prompt"
             onClick={() => setIsSurpriseMeMode(!isSurpriseMeMode)}
             className={`w-8 h-4 rounded-full relative transition-colors ${isSurpriseMeMode ? 'bg-primary' : 'bg-zinc-300 dark:bg-zinc-700'}`}
           >
@@ -205,6 +207,7 @@ export function ControlsPanel() {
           onChange={(e) => setPrompt(e.target.value)}
           disabled={isSurpriseMeMode}
           maxLength={300}
+          title={isSurpriseMeMode ? "Surprise mode active. Turn off to type a custom prompt." : "Describe your product here to let AI generate a custom design system"}
           className={`w-full bg-surface border border-border rounded-xl p-3 pb-8 min-h-32 text-sm text-foreground focus:outline-none focus:border-primary transition-all resize-none shadow-inner ${isSurpriseMeMode ? 'opacity-50 cursor-not-allowed grayscale' : ''}`} 
           placeholder={isSurpriseMeMode ? "Surprise mode active..." : "An AI productivity platform for professionals that helps them plan, focus, and achieve more with intelligent assistance."}
         />
@@ -217,6 +220,7 @@ export function ControlsPanel() {
           whileTap={{ scale: 0.98 }}
           onClick={handleGenerate}
           disabled={isGenerating}
+          title={isSurpriseMeMode ? "Instantly pick a random matching preset theme" : "Generate a custom design system using AI"}
           className="w-full relative overflow-hidden bg-gradient-to-r from-primary to-blue-500 text-white py-3.5 rounded-xl font-semibold flex justify-center items-center gap-2 shadow-[0_0_20px_rgba(139,92,246,0.3)] disabled:opacity-80 transition-shadow"
         >
           <AnimatePresence mode="wait">
