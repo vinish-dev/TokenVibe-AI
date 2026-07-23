@@ -125,7 +125,7 @@ export function LivePreview() {
         
         {/* Tokens display below preview */}
         <div className="w-full max-w-5xl mt-12 bg-surface border border-border rounded-xl p-4 lg:p-6 shrink-0 relative z-10 transition-all">
-          <div className="flex gap-4 lg:gap-6 border-b border-border pb-4 mb-6 text-sm overflow-x-auto custom-scrollbar whitespace-nowrap">
+          <div className="flex gap-4 lg:gap-6 border-b border-border pb-4 mb-6 text-sm overflow-x-auto no-scrollbar whitespace-nowrap">
             <button onClick={() => setBottomTab('colors')} className={`${bottomTab === 'colors' ? 'text-primary font-medium border-b-2 border-primary' : 'text-zinc-400 hover:text-zinc-200'} pb-4 -mb-[17px] transition-colors`}>Color Tokens</button>
             <button onClick={() => setBottomTab('typography')} className={`${bottomTab === 'typography' ? 'text-primary font-medium border-b-2 border-primary' : 'text-zinc-400 hover:text-zinc-200'} pb-4 -mb-[17px] transition-colors`}>Typography</button>
             <button onClick={() => setBottomTab('spacing')} className={`${bottomTab === 'spacing' ? 'text-primary font-medium border-b-2 border-primary' : 'text-zinc-400 hover:text-zinc-200'} pb-4 -mb-[17px] transition-colors`}>Spacing</button>

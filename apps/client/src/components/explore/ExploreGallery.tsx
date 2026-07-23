@@ -32,7 +32,7 @@ export function ExploreGallery() {
       <div className="flex-1 overflow-y-auto custom-scrollbar p-6 lg:p-10 relative">
         <div className="max-w-7xl mx-auto">
           {/* Filters */}
-          <div className="flex items-center gap-3 mb-10 overflow-x-auto pb-2 custom-scrollbar">
+          <div className="flex items-center gap-3 mb-10 overflow-x-auto pb-2 no-scrollbar">
             <Filter className="w-4 h-4 text-muted-foreground shrink-0 mr-2" />
             {filters.map(filter => (
               <button

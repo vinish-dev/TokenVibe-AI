@@ -80,7 +80,7 @@ export function ExportModal() {
             {/* Body */}
             <div className="flex-1 flex flex-col overflow-hidden bg-background">
               {/* Tabs */}
-              <div className="flex gap-1 p-2 border-b border-border bg-background overflow-x-auto custom-scrollbar">
+              <div className="flex gap-1 p-2 border-b border-border bg-background overflow-x-auto no-scrollbar">
                 {TABS.map((tab) => (
                   <button
                     key={tab.id}

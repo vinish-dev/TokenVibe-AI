@@ -94,95 +94,100 @@ const defaultTheme: ThemeSchema = {
   }
 };
 
-export const useTokenStore = create<TokenState>((set, get) => ({
-  theme: defaultTheme,
-  setTheme: (theme) => set({ theme }),
-  updateThemeValue: (path, value) => set((state) => {
-    // Simple deep clone and update
-    const newTheme = JSON.parse(JSON.stringify(state.theme));
-    let current = newTheme;
-    for (let i = 0; i < path.length - 1; i++) {
-      current = current[path[i]];
-    }
-    current[path[path.length - 1]] = value;
-    return { theme: newTheme };
-  }),
-  isExportOpen: false,
-  setIsExportOpen: (isOpen) => set({ isExportOpen: isOpen }),
-  activeTab: 'web',
-  setActiveTab: (tab) => set({ activeTab: tab }),
-  bottomTab: 'colors',
-  setBottomTab: (tab) => set({ bottomTab: tab }),
-  showHistory: false,
-  setShowHistory: (show) => set({ showHistory: show }),
-  historyItems: [],
-  loadHistory: async () => {
-    const { showHistory } = get();
-    if (showHistory) {
-      set({ showHistory: false });
-      return;
-    }
-    try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
-      const res = await fetch(`${apiUrl}/api/themes/mock-user-123`);
-      if (!res.ok) throw new Error("Failed to fetch");
-      const data = await res.json();
-      set({ historyItems: data, showHistory: true });
-    } catch (e) {
-      console.error(e);
-      // Fallback for when API server is not running
-      const currentItems = get().historyItems;
-      if (currentItems.length === 0) {
-        set({ 
-          historyItems: [{ id: 'mock-1', name: 'Sample Saved Theme', createdAt: new Date().toISOString(), schemaJson: defaultTheme }], 
-          showHistory: true 
+import { persist } from 'zustand/middleware';
+
+export const useTokenStore = create<TokenState>()(
+  persist(
+    (set, get) => ({
+      theme: defaultTheme,
+      setTheme: (theme) => set({ theme }),
+      updateThemeValue: (path, value) => set((state) => {
+        // Simple deep clone and update
+        const newTheme = JSON.parse(JSON.stringify(state.theme));
+        let current = newTheme;
+        for (let i = 0; i < path.length - 1; i++) {
+          current = current[path[i]];
+        }
+        current[path[path.length - 1]] = value;
+        return { theme: newTheme };
+      }),
+      isExportOpen: false,
+      setIsExportOpen: (isOpen) => set({ isExportOpen: isOpen }),
+      activeTab: 'web',
+      setActiveTab: (tab) => set({ activeTab: tab }),
+      bottomTab: 'colors',
+      setBottomTab: (tab) => set({ bottomTab: tab }),
+      showHistory: false,
+      setShowHistory: (show) => set({ showHistory: show }),
+      historyItems: [],
+      loadHistory: async () => {
+        const { showHistory } = get();
+        if (showHistory) {
+          set({ showHistory: false });
+          return;
+        }
+        try {
+          const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+          const res = await fetch(`${apiUrl}/api/themes/mock-user-123`);
+          if (!res.ok) throw new Error("Failed to fetch");
+          const data = await res.json();
+          set({ historyItems: data, showHistory: true });
+        } catch (e) {
+          console.error("Using local history fallback", e);
+          set({ showHistory: true });
+        }
+      },
+      saveTheme: async (newTheme) => {
+        const { historyItems } = get();
+        // Check for duplicates by comparing colors (simplest proxy for unique theme)
+        const isDuplicate = historyItems.some(item => {
+          if (!item.schemaJson || !item.schemaJson.colors) return false;
+          return JSON.stringify(item.schemaJson.colors) === JSON.stringify(newTheme.colors);
         });
-      } else {
-        set({ showHistory: true });
-      }
+        
+        if (isDuplicate) {
+          return false; // Indicates duplicate
+        }
+        
+        const newItem = {
+          id: `mock-${Date.now()}`,
+          name: newTheme.metadata.name || 'Untitled Theme',
+          createdAt: new Date().toISOString(),
+          schemaJson: newTheme
+        };
+        
+        set({ historyItems: [newItem, ...historyItems] });
+        return true; // Indicates success
+      },
+      deleteTheme: (id) => {
+        set({ historyItems: get().historyItems.filter(item => item.id !== id) });
+      },
+      isDarkMode: true,
+      toggleDarkMode: () => {
+        const newDarkMode = !get().isDarkMode;
+        set({ isDarkMode: newDarkMode });
+        if (typeof window !== 'undefined') {
+          if (newDarkMode) {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        }
+      },
+      isSidebarOpen: false,
+      setIsSidebarOpen: (isOpen) => set({ isSidebarOpen: isOpen }),
+      appView: 'dashboard',
+      setAppView: (view) => set({ appView: view }),
+      isGenerating: false,
+      setIsGenerating: (isGenerating) => set({ isGenerating })
+    }),
+    {
+      name: 'tokenvibe-storage',
+      partialize: (state) => ({ 
+        historyItems: state.historyItems,
+        theme: state.theme,
+        isDarkMode: state.isDarkMode
+      })
     }
-  },
-  saveTheme: async (newTheme) => {
-    const { historyItems } = get();
-    // Check for duplicates by comparing colors (simplest proxy for unique theme)
-    const isDuplicate = historyItems.some(item => {
-      if (!item.schemaJson || !item.schemaJson.colors) return false;
-      return JSON.stringify(item.schemaJson.colors) === JSON.stringify(newTheme.colors);
-    });
-    
-    if (isDuplicate) {
-      return false; // Indicates duplicate
-    }
-    
-    const newItem = {
-      id: `mock-${Date.now()}`,
-      name: newTheme.metadata.name || 'Untitled Theme',
-      createdAt: new Date().toISOString(),
-      schemaJson: newTheme
-    };
-    
-    set({ historyItems: [newItem, ...historyItems] });
-    return true; // Indicates success
-  },
-  deleteTheme: (id) => {
-    set({ historyItems: get().historyItems.filter(item => item.id !== id) });
-  },
-  isDarkMode: true,
-  toggleDarkMode: () => {
-    const newDarkMode = !get().isDarkMode;
-    set({ isDarkMode: newDarkMode });
-    if (typeof window !== 'undefined') {
-      if (newDarkMode) {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
-    }
-  },
-  isSidebarOpen: false,
-  setIsSidebarOpen: (isOpen) => set({ isSidebarOpen: isOpen }),
-  appView: 'dashboard',
-  setAppView: (view) => set({ appView: view }),
-  isGenerating: false,
-  setIsGenerating: (isGenerating) => set({ isGenerating })
-}));
+  )
+);
