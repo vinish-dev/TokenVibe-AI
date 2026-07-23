@@ -159,7 +159,6 @@ export function Sidebar() {
         )}
       </AnimatePresence>
     </aside>
-  );
   </>
 )
 }

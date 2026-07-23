@@ -79,7 +79,7 @@ export function ControlsPanel() {
   };
 
   return (
-    <section className="w-full lg:w-80 border-b lg:border-b-0 lg:border-r border-border bg-[#09090b] p-6 lg:overflow-y-auto custom-scrollbar shrink-0 flex flex-col relative z-10">
+    <section className="w-full lg:w-80 border-b lg:border-b-0 lg:border-r border-border bg-surface p-6 lg:overflow-y-auto custom-scrollbar shrink-0 flex flex-col relative z-10">
 
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-sm font-medium">1. Brand Personality</h2>
