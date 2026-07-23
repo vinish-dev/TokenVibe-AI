@@ -25,6 +25,8 @@ interface TokenState {
   setIsSidebarOpen: (isOpen: boolean) => void;
   appView: 'dashboard' | 'explore';
   setAppView: (view: 'dashboard' | 'explore') => void;
+  isGenerating: boolean;
+  setIsGenerating: (isGenerating: boolean) => void;
 }
 
 const defaultTheme: ThemeSchema = {
@@ -148,5 +150,7 @@ export const useTokenStore = create<TokenState>((set, get) => ({
   isSidebarOpen: false,
   setIsSidebarOpen: (isOpen) => set({ isSidebarOpen: isOpen }),
   appView: 'dashboard',
-  setAppView: (view) => set({ appView: view })
+  setAppView: (view) => set({ appView: view }),
+  isGenerating: false,
+  setIsGenerating: (isGenerating) => set({ isGenerating })
 }));

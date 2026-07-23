@@ -5,11 +5,12 @@ import { useTokenStore } from "@/store/useTokenStore";
 import { WebPreview } from "./WebPreview";
 import { MobilePreview } from "./MobilePreview";
 import { ComponentsPreview } from "./ComponentsPreview";
+import { GeneratingOverlay } from "./GeneratingOverlay";
 import { motion, AnimatePresence } from "framer-motion";
 import React from "react";
 
 export function LivePreview() {
-  const { theme, activeTab, setActiveTab, bottomTab, setBottomTab } = useTokenStore();
+  const { theme, activeTab, setActiveTab, bottomTab, setBottomTab, isGenerating } = useTokenStore();
   const [saveToast, setSaveToast] = useState(false);
 
   const handleSave = () => {
@@ -55,6 +56,11 @@ export function LivePreview() {
 
   return (
     <section className="w-full lg:flex-1 flex flex-col overflow-visible lg:overflow-hidden bg-background relative min-h-screen lg:min-h-0">
+      {/* Absolute overlay for generation */}
+      <AnimatePresence>
+        {isGenerating && <GeneratingOverlay />}
+      </AnimatePresence>
+
       <header className="h-14 border-b border-border flex items-center justify-between px-6 shrink-0">
         <div className="flex gap-6 h-full">
           <button 

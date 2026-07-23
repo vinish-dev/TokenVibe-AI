@@ -18,7 +18,7 @@ const SLIDERS = [
 ];
 
 export function ControlsPanel() {
-  const { setTheme } = useTokenStore();
+  const { setTheme, isGenerating, setIsGenerating } = useTokenStore();
   const [selectedPersonalities, setSelectedPersonalities] = useState<string[]>(['Modern']);
   const [sliderValues, setSliderValues] = useState<Record<string, number>>({
     warmth: 65,
@@ -29,7 +29,6 @@ export function ControlsPanel() {
     animation: 50,
   });
   const [prompt, setPrompt] = useState("");
-  const [isGenerating, setIsGenerating] = useState(false);
 
   const togglePersonality = (pill: string) => {
     setSelectedPersonalities(prev => 
@@ -45,34 +44,50 @@ export function ControlsPanel() {
 
   const handleGenerate = async () => {
     setIsGenerating(true);
+    let generatedTheme;
+
     try {
       const personality = selectedPersonalities.length > 0 ? selectedPersonalities[0] : 'Modern';
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
       
       const response = await fetch(`${apiUrl}/api/generate`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ prompt, personality, sliderValues })
       });
       
-      if (!response.ok) {
-        throw new Error("Failed to generate theme");
-      }
-      
-      const newTheme = await response.json();
-      setTheme(newTheme);
+      if (!response.ok) throw new Error("Failed to generate theme");
+      generatedTheme = await response.json();
     } catch (error) {
       console.error("AI Generation failed, falling back to presets:", error);
-      // Fallback: pick a preset that vaguely matches the personality, or just random
       const personality = selectedPersonalities.length > 0 ? selectedPersonalities[0] : 'Modern';
       const fallbackMatches = presetThemes.filter(t => t.intent.mood === personality || t.intent.style === personality);
-      const fallbackTheme = fallbackMatches.length > 0 
+      generatedTheme = fallbackMatches.length > 0 
         ? fallbackMatches[Math.floor(Math.random() * fallbackMatches.length)]
         : presetThemes[Math.floor(Math.random() * presetThemes.length)];
+    }
+
+    try {
+      // Step 1: Wait for Analyzing... (1200ms)
+      await new Promise(resolve => setTimeout(resolve, 1200));
       
-      setTheme(fallbackTheme);
+      const currentTheme = useTokenStore.getState().theme;
+      
+      // Step 2: Apply Colors (2400ms total)
+      await new Promise(resolve => setTimeout(resolve, 1200));
+      setTheme({ ...currentTheme, colors: generatedTheme.colors, intent: generatedTheme.intent });
+      
+      // Step 3: Apply Typography (3600ms total)
+      await new Promise(resolve => setTimeout(resolve, 1200));
+      setTheme({ ...currentTheme, colors: generatedTheme.colors, typography: generatedTheme.typography, intent: generatedTheme.intent });
+      
+      // Step 4: Apply Spacing & Radius (4800ms total)
+      await new Promise(resolve => setTimeout(resolve, 1200));
+      setTheme({ ...currentTheme, colors: generatedTheme.colors, typography: generatedTheme.typography, spacing: generatedTheme.spacing, radius: generatedTheme.radius, intent: generatedTheme.intent });
+      
+      // Step 5: Full theme applied (6000ms total)
+      await new Promise(resolve => setTimeout(resolve, 1200));
+      setTheme(generatedTheme);
     } finally {
       setIsGenerating(false);
     }
