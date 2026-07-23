@@ -4,15 +4,19 @@ import { useState } from "react";
 import { Sparkles, LayoutDashboard, Compass, FolderHeart, Clock, Settings, Search } from "lucide-react";
 import { motion } from "framer-motion";
 
-export function Sidebar() {
-  const [activeItem, setActiveItem] = useState("dashboard");
-
+export function Sidebar({ 
+  activeItem, 
+  onSelect 
+}: { 
+  activeItem: string;
+  onSelect: (id: string) => void;
+}) {
   const NavItem = ({ id, icon: Icon, tooltip }: { id: string, icon: any, tooltip: string }) => {
     const isActive = activeItem === id;
     return (
       <div className="relative group">
         <button 
-          onClick={() => setActiveItem(id)}
+          onClick={() => onSelect(id)}
           className={`w-10 h-10 flex items-center justify-center rounded-xl relative transition-colors ${isActive ? 'text-primary' : 'text-zinc-500 hover:text-zinc-200 hover:bg-white/5'}`}
         >
           {isActive && (
