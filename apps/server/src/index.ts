@@ -66,6 +66,19 @@ app.get("/api/themes/:userId", async (req, res) => {
   }
 });
 
+app.delete("/api/themes/:themeId", async (req, res) => {
+  try {
+    const { themeId } = req.params;
+    await db.theme.delete({
+      where: { id: themeId }
+    });
+    res.json({ success: true });
+  } catch (error: any) {
+    console.error("Error deleting theme:", error);
+    res.status(500).json({ error: "Failed to delete theme." });
+  }
+});
+
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
