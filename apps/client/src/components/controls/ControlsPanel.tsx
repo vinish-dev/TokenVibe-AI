@@ -52,10 +52,17 @@ export function ControlsPanel() {
       
       // SURPRISE ME FEATURE: If toggle is on, skip API and pick a preset instantly
       if (isSurpriseMeMode || prompt.trim() === "") {
-        const fallbackMatches = presetThemes.filter(t => t.intent.mood === personality || t.intent.style === personality);
-        generatedTheme = fallbackMatches.length > 0 
-          ? fallbackMatches[Math.floor(Math.random() * fallbackMatches.length)]
-          : presetThemes[Math.floor(Math.random() * presetThemes.length)];
+        if (selectedPersonalities.length === 0) {
+          // If no personality is selected, pick a completely random theme
+          generatedTheme = presetThemes[Math.floor(Math.random() * presetThemes.length)];
+        } else {
+          // Otherwise try to match the selected personality
+          const personality = selectedPersonalities[0];
+          const fallbackMatches = presetThemes.filter(t => t.intent.mood === personality || t.intent.style === personality);
+          generatedTheme = fallbackMatches.length > 0 
+            ? fallbackMatches[Math.floor(Math.random() * fallbackMatches.length)]
+            : presetThemes[Math.floor(Math.random() * presetThemes.length)];
+        }
       } else {
         // We now call the Next.js API proxy route, which securely forwards to the ECS backend
         // This solves the Mixed Content error since the browser only sees a same-origin request.
@@ -70,11 +77,15 @@ export function ControlsPanel() {
       }
     } catch (error) {
       console.error("AI Generation failed, falling back to presets:", error);
-      const personality = selectedPersonalities.length > 0 ? selectedPersonalities[0] : 'Modern';
-      const fallbackMatches = presetThemes.filter(t => t.intent.mood === personality || t.intent.style === personality);
-      generatedTheme = fallbackMatches.length > 0 
-        ? fallbackMatches[Math.floor(Math.random() * fallbackMatches.length)]
-        : presetThemes[Math.floor(Math.random() * presetThemes.length)];
+      if (selectedPersonalities.length === 0) {
+        generatedTheme = presetThemes[Math.floor(Math.random() * presetThemes.length)];
+      } else {
+        const personality = selectedPersonalities[0];
+        const fallbackMatches = presetThemes.filter(t => t.intent.mood === personality || t.intent.style === personality);
+        generatedTheme = fallbackMatches.length > 0 
+          ? fallbackMatches[Math.floor(Math.random() * fallbackMatches.length)]
+          : presetThemes[Math.floor(Math.random() * presetThemes.length)];
+      }
     }
 
     try {
