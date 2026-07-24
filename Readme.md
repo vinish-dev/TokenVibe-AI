@@ -4,6 +4,8 @@ TokenVibe AI is an AI-powered semantic design system generator. It allows users 
 
 The application provides a live preview of the generated design tokens across multiple platforms (Web, Mobile, Components) and allows users to export the generated system to CSS Variables, Tailwind Config, Jetpack Compose, Flutter, or Figma JSON.
 
+### Live Application: https://main.d3akg76erj026z.amplifyapp.com
+
 ## Features
 
 - **AI Theme Generation**: Integrates with the Google Gemini 2.5 Flash API to dynamically generate complete design systems based on a flat, highly impactful semantic `ThemeSchema`. Includes 6 design sliders (Warmth, Energy, Luxury, Minimalism, Roundedness, Animation) to strongly influence the generated styles.
