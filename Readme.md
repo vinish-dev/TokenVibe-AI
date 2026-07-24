@@ -62,6 +62,16 @@ TokenVibe AI intentionally uses a **simplified semantic schema** (`ThemeSchema`)
 ### Why no database?
 The backend is intentionally stateless and focuses solely on secure AI-powered theme generation. TokenVibe AI stores user-specific theme history and preferences in browser `localStorage`. This drastically reduces infrastructure complexity, lowers hosting costs, improves scalability, and allows the backend to be deployed frictionlessly to serverless container environments like Amazon ECS Fargate.
 
+## API Key Configuration
+
+This project requires a Google Gemini API key to generate AI-powered themes.
+
+To protect sensitive credentials, API keys are not included in the submission. Configure the following environment variable before running the backend:
+
+GEMINI_API_KEY=your_api_key_here
+
+If no API key is configured, the application automatically falls back to built-in preset themes. This allows the user interface and application flow to remain fully functional while preventing exposure of private credentials.
+
 ## Running Locally
 
 1. Install dependencies from the root directory:
