@@ -6,14 +6,16 @@ The application provides a live preview of the generated design tokens across mu
 
 ## Features
 
-- **AI Theme Generation**: Integrates with the Google Gemini API to dynamically generate complete design systems based on a flat, highly impactful semantic `ThemeSchema`. Includes 6 design sliders (Warmth, Energy, Luxury, Minimalism, Roundedness, Animation) to strongly influence the generated styles.
+- **AI Theme Generation**: Integrates with the Google Gemini 2.5 Flash API to dynamically generate complete design systems based on a flat, highly impactful semantic `ThemeSchema`. Includes 6 design sliders (Warmth, Energy, Luxury, Minimalism, Roundedness, Animation) to strongly influence the generated styles.
+- **Brand Color Anchoring**: Allows users to specify an exact primary hex color, forcing the AI to generate the rest of the palette harmoniously around it.
+- **Explore Gallery & Surprise Me Mode**: A full-screen gallery of handcrafted presets (e.g., Cyberpunk Edge, Apple Inspired) for rapid exploration, and a 1-click fallback generator.
 - **Live Preview UI**: Instantly renders the generated design tokens in realistic UI environments:
   - **Web Dashboard**: A full SaaS dashboard mockup.
   - **Mobile App**: A native mobile app layout mockup.
-  - **Component Library**: A gallery of UI components (buttons, inputs, cards, switches, data tables, and dynamic recharts area charts).
-- **Global Theming**: Powered by Tailwind CSS v4 and a Zustand store, themes are dynamically injected via CSS variables into a scoped preview container. Component preferences (e.g., flat vs elevated cards, solid vs outlined buttons) are mapped via data attributes.
-- **Advanced Export Engine**: Instantly generates code snippets and downloadable `.zip` bundles (via `jszip` and `file-saver`) to export the active theme to CSS, Tailwind, Jetpack Compose, Flutter, and Figma Tokens.
-- **Database Integration**: Prisma ORM + SQLite database in the Express backend for saving themes and viewing historical themes.
+  - **Component Library**: A gallery of UI components (buttons, inputs, cards, switches, data tables, and dynamic recharts).
+- **Global Theming & Isolation**: Powered by Tailwind CSS v4 and a Zustand store, themes are dynamically injected via CSS variables into a strictly scoped preview container, keeping the main app's premium dark UI pristine.
+- **Advanced Export Engine**: Instantly generates code snippets and downloadable `.zip` bundles to export the active theme to CSS, Tailwind, Jetpack Compose, Flutter, and Figma Tokens.
+- **Browser-Based Local Storage**: Themes are saved securely and persistently in the browser's `localStorage` via Zustand, completely eliminating the need for user accounts or databases.
 
 ## Tech Stack
 
@@ -26,8 +28,8 @@ The application provides a live preview of the generated design tokens across mu
 - **Animations**: Framer Motion
 - **Icons**: Lucide React
 - **Charts**: Recharts
-- **Database**: Prisma ORM with SQLite
 - **AI Integration**: Google GenAI SDK (`@google/genai`)
+- **Cloud Infrastructure**: Docker, AWS Amplify (Frontend), Amazon ECS Fargate (Backend)
 
 ## Project Structure
 
@@ -36,13 +38,12 @@ TokenVibe AI is built as a monorepo using npm workspaces:
 ```
 .
 ├── apps/
-│   ├── client/              # Next.js Frontend
-│   │   ├── src/app/         # Next.js App Router
-│   │   ├── src/components/  # UI components (controls, preview, layout, charts)
+│   ├── client/              # Next.js Frontend (Deployed on AWS Amplify)
+│   │   ├── src/app/         # Next.js App Router (Includes API Proxy for Mixed Content)
+│   │   ├── src/components/  # UI components (controls, preview, layout, explore, export)
 │   │   └── src/store/       # Zustand store (useTokenStore.ts)
-│   └── server/              # Express Backend
-│       ├── prisma/          # Prisma schema and SQLite database
-│       └── src/             # Gemini API integration and Express route handlers
+│   └── server/              # Express Backend (Dockerized on Amazon ECS Fargate)
+│       └── src/             # Gemini API integration and stateless route handlers
 └── packages/
     └── shared/              # Shared Types and Schemas (ThemeSchema)
 ```
@@ -58,8 +59,9 @@ TokenVibe AI intentionally uses a **simplified semantic schema** (`ThemeSchema`)
    - Tailwind v4 maps these variables in `globals.css` using the `@theme inline` directive.
 4. **Component Styles**: Lightweight stylistic preferences (like button style or card elevation) are stored in `theme.components` and applied via CSS data attributes (e.g., `data-btn="pill"`).
 
-Why no database?
-TokenVibe AI stores user-specific theme history and preferences in browser localStorage because they are personal, client-side data. The backend is intentionally stateless and focuses solely on AI-powered theme generation. This reduces infrastructure complexity, lowers hosting costs, improves scalability, and aligns well with managed cloud services like AWS App Runner.
+### Why no database?
+The backend is intentionally stateless and focuses solely on secure AI-powered theme generation. TokenVibe AI stores user-specific theme history and preferences in browser `localStorage`. This drastically reduces infrastructure complexity, lowers hosting costs, improves scalability, and allows the backend to be deployed frictionlessly to serverless container environments like Amazon ECS Fargate.
+
 ## Running Locally
 
 1. Install dependencies from the root directory:
@@ -67,20 +69,12 @@ TokenVibe AI stores user-specific theme history and preferences in browser local
    npm install
    ```
 
-2. Generate Prisma Client (if needed) and push schema:
-   ```bash
-   cd apps/server
-   npx prisma generate
-   npx prisma db push
-   cd ../..
-   ```
+2. Setup environment variables:
+   Create a `.env` file in `apps/server/` based on `apps/server/.env.example` and add your `GEMINI_API_KEY`.
 
-3. Setup environment variables (add your Gemini API key):
-   Create a `.env` file in `apps/server/` based on `apps/server/.env.example`.
-
-4. Run the development server (runs both client and server concurrently):
+3. Run the development server (starts both client and server concurrently):
    ```bash
    npm run dev
    ```
 
-5. Open [http://localhost:3000](http://localhost:3000) with your browser.
+4. Open [http://localhost:3000](http://localhost:3000) with your browser.
